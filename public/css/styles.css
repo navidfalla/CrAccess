@@ -1,0 +1,235 @@
+html, body {
+  font-family: Arial, sans-serif, Monospace;
+  padding: 0; margin: 0;
+  background-color: #white;
+}
+
+#header {
+left:0;
+top:0;
+width: 100%;
+background-color: white;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+  margin-bottom: 40px
+}
+
+h1 {
+  text-align: center;
+  margin-top:0px;
+  color: #2b78e4;
+  padding-top: 35px;
+  font-family: sans-serif;
+
+}
+
+#content {
+  margin-left: 250px;
+  min-height: 400px;
+}
+
+textarea {
+    width: 50%;
+    height: 100px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 12px;
+    resize: none;
+}
+
+#primary-nav {
+  clear: both;
+  text-align:center;
+  margin: 0;
+  padding: 0;
+}
+
+#primary-nav li {
+  display: inline;
+  border: 2px solid #ccc;
+  margin: 0 5px; padding: 0;
+}
+
+#primary-nav li a {
+  text-decoration: none;
+  color: #555;
+  padding: 0px 16px;
+}
+
+#primary-nav li a:hover {
+  background-color: orange;
+}
+
+#selected-nav:link,
+#selected-nav:visited {
+  background-color: cyan
+}
+
+label {
+  display: block;
+}
+
+
+#report {
+  padding: 50px;
+  width: 50%
+  margin-bottom: 0;
+  display: inline-block;
+  text-align: center;
+}
+
+#report-form {
+  margin: 20px
+}
+
+#map {
+  padding: 50px;
+  width: 50%
+  margin-bottom: 0;
+  margin-left: 230px;
+  display: inline-block;
+  text-align: center;
+}
+
+.main {
+  margin-top: 40px;
+  margin-left: -250px;
+  margin-bottom: 30px;
+}
+
+.main-image {
+    height: auto;
+    width: auto;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.issue_block {
+  margin-left: 150px;
+  margin-bottom: 30px
+}
+
+.issue-image {
+    height: auto;
+    width: auto;
+    max-width: 250px;
+    max-height: 250px;
+    vertical-align: text-top;
+}
+
+.issue {
+  margin-left: 20px;
+}
+
+.text_wrap {
+    width: 70%;
+}
+
+#account{
+  float: left;
+  margin-left: 60px;
+  margin-top: 50px
+}
+
+#your_img {
+  float: right;
+  margin-right: 100px;
+}
+
+.your_image {
+    height: auto;
+    width: auto;
+    max-width: 120px;
+    max-height: 120px;
+    vertical-align: text-top;
+}
+
+.map-image {
+    vertical-align: text-top;
+}
+
+#sort {
+    clear: both;
+    margin-left: 20px;
+    padding: 0;
+  }
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.container div {
+  background-color: white;
+  width: 100%;
+}
+
+.container img {
+  width: 100%;
+  height: auto;
+}
+
+.next {
+  right: 5px;
+}
+
+.prev {
+  left: 5px;
+}
+
+#logindes {
+  text-align: center;
+  margin-left: -200px
+}
+
+#form-email {
+  float: left;
+}
+
+#form-pid {
+  float: right;
+  margin-right: 200px
+}
+
+.submit {
+  float: right;
+  background-color: orange;
+  border: none;
+  font-size: 14px;
+  margin-top: 4px
+}
+
+.on_searching {
+  width: 250px;
+}
+
+#footer {
+  clear: both;
+  text-align:center;
+  margin: 0;
+  padding: 0;
+}
+
+#footer li {
+  display: inline;
+  border: 2px solid #ccc;
+  margin: 0 5px; padding: 0;
+}
+
+#footer li a {
+  text-decoration: none;
+  color: #555;
+  padding: 0px 16px;
+}
+
+#footer li a:hover {
+  background-color: orange;
