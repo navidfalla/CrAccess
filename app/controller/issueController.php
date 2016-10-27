@@ -42,6 +42,11 @@ class IssueController {
 				$issueID = $_GET['id'];
 	 		 	$this->deleteIssue($issueID);
 	 		 	break;
+			case 'reportSolvedProcess':
+				$issueID = $_GET['id'];
+				$solved = $_GET['solved'];
+				$this->reportSolvedProcess($issueID,$solved);
+ 				break;
 
       default:
         header('Location: '.BASE_URL);
@@ -56,7 +61,7 @@ class IssueController {
 			or die ('Error: Could not connect to MySql database');
 		mysql_select_db(DB_DATABASE);
 
-		$q = "SELECT issue.id, address, description, summary, date_added, img, username FROM issue INNER JOIN user on added_by = user.id ORDER BY date_added; ";
+		$q = "SELECT issue.id, address, description, summary, date_added, img, username, solved FROM issue INNER JOIN user on added_by = user.id ORDER BY date_added; ";
 		$result = mysql_query($q);
 
 		include_once SYSTEM_PATH.'/view/header.tpl';
@@ -119,8 +124,34 @@ class IssueController {
 		}
 		header('Content-Type: application/json');
 		echo json_encode($json);
-
   }
+
+	public function reportSolvedProcess($id,$solved) {
+	  if ($this->isLoggedIn()) {
+		  $conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
+			  or die ('Error: Could not connect to MySql database');
+		  mysql_select_db(DB_DATABASE);
+
+		//   UPDATE issue SET solved=solved+1 WHERE id=$id;
+		if ($solved == 'T'){
+			$sql =	"UPDATE issue SET solved=solved+1 WHERE id='".$id."'";
+		}else{
+			$sql =	"UPDATE issue SET solved=solved-1 WHERE id='".$id."' and solved >= 0";
+		}
+		  if (mysql_query($sql)) {
+			  $q = "SELECT solved FROM issue WHERE id='".$id."'";
+	  		  $result = mysql_query($q);
+			  $row = mysql_fetch_assoc($result);
+			  $json = array( 'status' => 'success', 'solved' =>  $row['solved']);
+		  }else{
+			  $json = array( 'status' => 'fail' );
+		  }
+	  }else {
+		  $json = array( 'status' => 'unauthorized' );
+	  }
+	  header('Content-Type: application/json');
+	  echo json_encode($json);
+	}
 
 	public function viewIssue($id) {
 		$pageName = 'Issue';

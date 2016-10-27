@@ -30,3 +30,7 @@ RewriteRule ^report/?$ app/controller/issueController.php?action=report [QSA,L]
 RewriteRule ^report/process/?$ app/controller/issueController.php?action=reportProcess [QSA,L]
 
 RewriteRule ^issues/delete/(\d+)/?$ app/controller/issueController.php?action=deleteIssue&id=$1 [QSA,L]
+
+RewriteRule ^issues/reportSolved/(\d+)/?$ app/controller/issueController.php?action=reportSolvedProcess&id=$1&solved=T [QSA,L]
+
+RewriteRule ^issues/reportUnSolved/(\d+)/?$ app/controller/issueController.php?action=reportSolvedProcess&id=$1&solved=F [QSA,L]

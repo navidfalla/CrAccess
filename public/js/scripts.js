@@ -26,12 +26,11 @@ $(function() {
 	// });
 
 	$('.delete-issue').on('click',function(e){
-		var myid = $(this).attr('id');
+		var myid = $(this).attr('id').split('-')[1];
 		$.post(
-	      baseURL+'/issues/delete/'+$(this).attr('id'),
+	      baseURL+'/issues/delete/'+myid,
 	      function(data) {
 	        if(data.status == 'success') {
-				console.log('tr#issue-'+myid);
 	          	$('tr#issue-'+myid).remove();
 	        } else {
 	          alert(data.status);
@@ -39,5 +38,39 @@ $(function() {
 	      },
 	      "json"
 	    );
-	})
+	});
+
+	$('.report-solved').on('click',function(e){
+		var myid = $(this).attr('id').split('-')[1];
+		if ($(this).hasClass("reported")){
+			$.post(
+			  baseURL+'/issues/reportUnSolved/'+myid,
+			  function(data) {
+				if(data.status == 'success') {
+					$('tr#issue-'+myid+" em.num-reports").text(data.solved);
+					$('#solve-'+myid).removeClass('reported');
+					$('#solve-'+myid).text("Report Solved")
+				} else {
+				  alert(data.status);
+				}
+			  },
+			  "json"
+			);
+		}else{
+			$.post(
+			  baseURL+'/issues/reportSolved/'+myid,
+			  function(data) {
+				if(data.status == 'success') {
+					console.log(myid);
+					$('tr#issue-'+myid+" em.num-reports").text(data.solved);
+					$('#solve-'+myid).addClass('reported');
+					$('#solve-'+myid).text("undo report")
+				} else {
+				  alert(data.status);
+				}
+			  },
+			  "json"
+			);
+		}
+	});
 });
