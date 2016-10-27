@@ -110,11 +110,15 @@ class IssueController {
 
 			$sql =	"DELETE FROM issue WHERE id='".$id."'";
 			if (mysql_query($sql)) {
-			include_once SYSTEM_PATH.'/view/deletesuccess.tpl';
+				$json = array( 'status' => 'success' );
+			}else{
+				$json = array( 'status' => 'fail' );
 			}
-		}	else {
-			header('Location: '.BASE_URL.'/login/');
+		}else {
+			$json = array( 'status' => 'unauthorized' );
 		}
+		header('Content-Type: application/json');
+		echo json_encode($json);
 
   }
 

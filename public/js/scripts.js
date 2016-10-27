@@ -21,7 +21,23 @@ $(function() {
 			$('#search_bar').animate({width: "173px"}, 500);
 	});
 
-	$.each($('.delete-form'), function (idx) {
-		$(this).submit(function (e) {return confirm('Delete?');});
-	});
+	// $.each($('.delete-form'), function (idx) {
+	// 	$(this).submit(function (e) {return confirm('Delete?');});
+	// });
+
+	$('.delete-issue').on('click',function(e){
+		var myid = $(this).attr('id');
+		$.post(
+	      baseURL+'/issues/delete/'+$(this).attr('id'),
+	      function(data) {
+	        if(data.status == 'success') {
+				console.log('tr#issue-'+myid);
+	          	$('tr#issue-'+myid).remove();
+	        } else {
+	          alert(data.status);
+	        }
+	      },
+	      "json"
+	    );
+	})
 });

@@ -88,6 +88,7 @@ class SiteController {
 			session_start();
 			$_SESSION['user'] = $u;
 			$_SESSION['user_id'] = $row['id'];
+			$_SESSION['privilege'] = $row['privilege'];
 			header('Location: '.BASE_URL."/myaccount");
 		} else {
 			header('Location: '.BASE_URL."/login");
