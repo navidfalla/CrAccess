@@ -13,11 +13,11 @@
 	<b>Summary</b>: <?= $row['summary'] ?> <br />
 	<b>Reporter</b>: <?= $row['username'] ?> <br />
 	<b>Date Added</b>: <?= $row['date_added'] ?> <br />
-	<a href="solved.html"><b>This issue has not been solved yet.</b></a><br>
+	<a id="solved-button" href="solved.html">Report Solved</a><br>
 	<?php
 			if(isset($_SESSION['user'])){
 				if ($_SESSION['user'] == $row['username']){
-					echo '<button type="submit">Edit</button></form><form class="delete-form" style="display: inline;" action="'. $BASE_URL . '/issues/delete/' .$row['id']. '" method="POST">
+					echo '<button type="submit">Edit</button></form><form class="delete-form" style="display: inline;" action="'. BASE_URL . '/issues/delete/' .$row['id']. '" method="POST">
 						<button type="submit">Delete</button>
 					</form></td></tr>';
 				}else{

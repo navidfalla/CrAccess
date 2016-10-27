@@ -233,3 +233,19 @@ label {
 
 #footer li a:hover {
   background-color: orange;
+}
+
+#solved-button{
+    display: inline;
+    float: right;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px;
+    padding: 5px;
+    font-size: 12px;
+    color: black;
+    border: 0.5px solid #ccc;
+    border-radius: 5px;
+    /*box-shadow: 2px 2px grey;*/
+    width: auto;
+}
