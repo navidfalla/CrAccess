@@ -259,3 +259,11 @@ span.note{
 td textarea{
     width: 100%;
 }
+
+#map{
+      width: 200px;
+      height: 200px;
+      padding: 5%;
+      border: 2px;
+       /*background-color: grey;*/
+}
