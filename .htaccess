@@ -21,6 +21,10 @@ RewriteRule ^issues/view/(\d+)/?$ app/controller/issueController.php?action=view
 
 RewriteRule ^issues/edit/(\d+)/process/?$ app/controller/issueController.php?action=editIssueProcess&id=$1 [QSA,L]
 
+RewriteRule ^issues/saveChanges/(\d+)/?$ app/controller/issueController.php?action=saveChanges&id=$1 [QSA,L]
+
+RewriteRule ^issues/checkIssue/?$ app/controller/issueController.php?action=checkIssue [QSA,L]
+
 RewriteRule ^issues/edit/(\d+)/?$ app/controller/issueController.php?action=editIssue&id=$1 [QSA,L]
 
 RewriteRule ^issues/?$ app/controller/issueController.php?action=issues [QSA,L]
@@ -34,5 +38,3 @@ RewriteRule ^issues/delete/(\d+)/?$ app/controller/issueController.php?action=de
 RewriteRule ^issues/reportSolved/(\d+)/?$ app/controller/issueController.php?action=reportSolvedProcess&id=$1&solved=T [QSA,L]
 
 RewriteRule ^issues/reportUnSolved/(\d+)/?$ app/controller/issueController.php?action=reportSolvedProcess&id=$1&solved=F [QSA,L]
-
-RewriteRule ^issues/view/(\d+)/map/?$ app/controller/issueController.php?action=showMap&id=$1 [QSA,L]

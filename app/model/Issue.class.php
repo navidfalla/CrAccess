@@ -10,6 +10,7 @@ class Issue extends DbObject {
     protected $date_added;
     protected $added_by;
     protected $img;
+    protected $solved;
 
     public function __construct($args = array()) {
         $defaultArgs = array(
@@ -20,6 +21,7 @@ class Issue extends DbObject {
             'date_added' => null,
             'img' => null,
             'added_by' => 0,
+            'solved' => 0,
             );
 
         $args += $defaultArgs;
@@ -31,6 +33,7 @@ class Issue extends DbObject {
         $this->date_added = $args['date_added'];
         $this->img = $args['img'];
         $this->added_by = $args['added_by'];
+        $this->solved = $args['solved'];
     }
 
     public function save() {
@@ -40,7 +43,8 @@ class Issue extends DbObject {
             'description' => $this->description,
             'summary' => $this->summary,
             'img' => $this->img,
-            'added_by' => $this->added_by
+            'added_by' => $this->added_by,
+            'solved' => $this->solved
             );
         $db->store($this, __CLASS__, self::DB_TABLE, $db_properties);
     }

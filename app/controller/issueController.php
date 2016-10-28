@@ -15,7 +15,7 @@ class IssueController {
 			  $this->issues();
 				break;
 
-			 case 'report':
+			case 'report':
 			 	$this->report();
 			 	break;
 
@@ -24,12 +24,12 @@ class IssueController {
 				 break;
 
  			case 'viewIssue':
-         $issueID = $_GET['id'];
+         		$issueID = $_GET['id'];
  				$this->viewIssue($issueID);
  				break;
 
  			case 'editIssue':
-         $issueID = $_GET['id'];
+         		$issueID = $_GET['id'];
  				$this->editIssue($issueID);
  				break;
 
@@ -38,10 +38,16 @@ class IssueController {
  				$this->editIssueProcess($issueID);
  				break;
 
+			case 'checkIssue':
+				$issueID = $_GET['id'];
+				$this->checkIssue($issueID);
+				break;
+
 			case 'deleteIssue':
 				$issueID = $_GET['id'];
 	 		 	$this->deleteIssue($issueID);
 	 		 	break;
+
 			case 'reportSolvedProcess':
 				$issueID = $_GET['id'];
 				$solved = $_GET['solved'];
@@ -51,6 +57,11 @@ class IssueController {
 			case 'showMap':
 				$issueID = $_GET['id'];
 				$this->showMap($issueID);
+				break;
+
+			case 'saveChanges':
+				$issueID = $_GET['id'];
+				$this->saveChanges($issueID);
 				break;
 
       default:
@@ -129,7 +140,7 @@ class IssueController {
 		}
 		header('Content-Type: application/json');
 		echo json_encode($json);
-  }
+    }
 
 	public function reportSolvedProcess($id,$solved) {
 	  if ($this->isLoggedIn()) {
@@ -158,6 +169,30 @@ class IssueController {
 	  echo json_encode($json);
 	}
 
+	public function checkIssue($id) {
+		if ($id == null){
+			$issue = array( 'status' => 'null' );
+		}else{
+			$i = Issue::loadById($id);
+
+			$issue = array();
+			$issue['id'] = $id;
+			$issue['address'] = $i->get('address');
+			$issue['description'] = $i->get('description');
+			$issue['summary'] = $i->get('summary');
+			$issue['date_added'] = $i->get('date_added');
+			$issue['added_by'] = $i->get('added_by');
+			$issue['solved'] = $i->get('solved');
+			$issue['img'] = $i->get('img');
+
+			$u = User::loadById($issue['added_by']);
+			$issue['username'] = $u->get('username');
+			$issue['status'] = 'success';
+		}
+		header('Content-Type: application/json');
+		echo json_encode($issue);
+	}
+
 	public function viewIssue($id) {
 		$pageName = 'Issue';
 
@@ -175,7 +210,7 @@ class IssueController {
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/issue.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';
-  }
+    }
 
 	public function showMap($id){
 		$pageName = 'Map';
@@ -188,37 +223,63 @@ class IssueController {
 	public function editIssue($id) {
 		$pageName = 'Edit Issue';
 		if ($this->isLoggedIn()) {
+			$i = Issue::loadById($id);
 
-		$i = Issue::loadById($id);
-
-		$issue = array();
+			$issue = array();
 			$issue['address'] = $i->get('address');
 			$issue['description'] = $i->get('description');
 			$issue['summary'] = $i->get('summary');
 			$issue['img'] = $i->get('img');
 
-		include_once SYSTEM_PATH.'/view/header.tpl';
-		include_once SYSTEM_PATH.'/view/editIssue.tpl';
-		include_once SYSTEM_PATH.'/view/footer.tpl';
-	} else {
-		header('Location: '.BASE_URL.'/login/');
+			include_once SYSTEM_PATH.'/view/header.tpl';
+			include_once SYSTEM_PATH.'/view/editIssue.tpl';
+			include_once SYSTEM_PATH.'/view/footer.tpl';
+		} else {
+			header('Location: '.BASE_URL.'/login/');
+		}
 	}
-}
 	public function editIssueProcess($id) {
 		$address = $_POST['address'];
 		$description = $_POST['description'];
 		$summary = $_POST['summary'];
 		$img = $_POST['img'];
 
-	$i = Issue::loadById($id);
+		$i = Issue::loadById($id);
+			$i->set('address', $address);
+			$i->set('description', $description);
+			$i->set('summary', $summary);
+
+		$i->save();
+
+		header('Location: '.BASE_URL.'/issues/');
+	}
+
+	public function saveChanges($id) {
+		$address = $_POST['address'];
+		$description = $_POST['description'];
+		$summary = $_POST['summary'];
+
+		$i = Issue::loadById($id);
 		$i->set('address', $address);
 		$i->set('description', $description);
 		$i->set('summary', $summary);
-		$i->set('img', $img);
 
-	$i->save();
+		$i->save();
+		$issue = array();
+		$issue['id'] = $id;
+		$issue['address'] = $i->get('address');
+		$issue['description'] = $i->get('description');
+		$issue['summary'] = $i->get('summary');
+		$issue['date_added'] = $i->get('date_added');
+		$issue['added_by'] = $i->get('added_by');
+		$issue['solved'] = $i->get('solved');
+		$issue['img'] = $i->get('img');
 
-	header('Location: '.BASE_URL.'/issues/');
-}
+		$u = User::loadById($issue['added_by']);
+		$issue['username'] = $u->get('username');
+		$issue['status'] = 'success';
+		header('Content-Type: application/json');
+		echo json_encode($issue);
+	}
 
 }
