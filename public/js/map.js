@@ -1,13 +1,11 @@
 var geocoder;
 var map;
-
-$( document ).ready(
-  function initMap() {
+function initMap() {
     var geocoder = new google.maps.Geocoder();
-    // var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
     var mapOptions = {
       zoom: 8,
-      // center: latlng
+      center: latlng
     }
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
     var address = document.getElementById('address').value;
@@ -23,4 +21,4 @@ $( document ).ready(
       }
     });
 
-  });
+}
