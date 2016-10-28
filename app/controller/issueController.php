@@ -48,6 +48,11 @@ class IssueController {
 				$this->reportSolvedProcess($issueID,$solved);
  				break;
 
+			case 'showMap':
+				$issueID = $_GET['id'];
+				$this->showMap($issueID);
+				break;
+
       default:
         header('Location: '.BASE_URL);
         exit();
@@ -165,12 +170,21 @@ class IssueController {
 		$issue['date_added'] = $i->get('date_added');
 		$issue['added_by'] = $i->get('added_by');
 		$issue['img'] = $i->get('img');
+		$issue['id'] = $i->get('id');
 
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/issue.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';
   }
 
+	public function showMap($id){
+		$pageName = 'Map';
+		$issue = Issue::loadById($id);
+		$issueAddress = $issue->get('address');
+		include_once SYSTEM_PATH.'/view/header.tpl';
+		include_once SYSTEM_PATH.'/view/map.tpl';
+		include_once SYSTEM_PATH.'/view/footer.tpl';
+	}
 	public function editIssue($id) {
 		$pageName = 'Edit Issue';
 		if ($this->isLoggedIn()) {

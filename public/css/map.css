@@ -1,0 +1,14 @@
+#map {
+      margin: 0;
+       padding-left: 15%;
+       padding-right: 15%;
+       width: 50%;
+       height: 400px;
+       /*background-color: grey;*/
+}
+
+div .address{
+  padding-left: 15%;
+  padding-right: 15%;
+  width: 50%;
+}

@@ -7,7 +7,7 @@
 
 <table>
 	<tr id="<?= 'issue-'.$row['id'] ?>">
-		<td><img class="issue-image" src="<?= BASE_URL ?>/public/img/<?= explode(",", $row['img'])[0]; ?>" alt="<?= $row['summary'] ?>" /></td>
+	<td><img class="issue-image" src="<?= BASE_URL ?>/public/img/<?= explode(",", $row['img'])[0]; ?>" alt="<?= $row['summary'] ?>" /></td>
 		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td>
 			<b>Address</b>: <a href="<?= BASE_URL ?>/issues/view/<?= $row['id'] ?>"><?= $row['address'] ?></a> <br />
