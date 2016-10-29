@@ -25,7 +25,7 @@ $(function() {
 	// 	$(this).submit(function (e) {return confirm('Delete?');});
 	// });
 
-	$('.delete-issue').on('click',function(e){
+	function deleteIssue(e){
 		if (confirm("Are you sure you want to delete this issue?")){
 			var myid = $(this).attr('id').split('-')[1];
 			$.post(
@@ -40,9 +40,9 @@ $(function() {
 			  "json"
 			);
 		}
-	});
+	}
 
-	$('.report-solved').on('click',function(e){
+	function reportSolved(e){
 		var myid = $(this).attr('id').split('-')[1];
 		if ($(this).hasClass("reported")){
 			$.post(
@@ -53,7 +53,9 @@ $(function() {
 					$('#solve-'+myid).removeClass('reported');
 					$('#solve-'+myid).text("Report Solved")
 				} else {
-				  alert(data.status);
+					if (data.status == "unauthorized"){
+						alert("Please login to report!")
+					}
 				}
 			  },
 			  "json"
@@ -63,7 +65,6 @@ $(function() {
 			  baseURL+'/issues/reportSolved/'+myid,
 			  function(data) {
 				if(data.status == 'success') {
-					console.log(myid);
 					$('tr#issue-'+myid+" em.num-reports").text(data.solved);
 					$('#solve-'+myid).addClass('reported');
 					$('#solve-'+myid).text("Undo Report")
@@ -74,9 +75,9 @@ $(function() {
 			  "json"
 			);
 		}
-	});
+	}
 
-	$('.edit-issue').on('click',function(e){
+	function editIssue(e){
 		var myid = $(this).attr('id').split('-')[1];
 
 		$.get(
@@ -95,6 +96,9 @@ $(function() {
 				  		if(data.status == 'success') {
 				  			myhtml = "<b>Address</b>: <span>"+data.address+"</span> <br /><b>Summary</b>: <span>"+data.summary+"</span> <br /><b>Reporter</b>: <span>"+data.username+"</span> <br /><b>Date Added</b>: <span>"+data.date_added+"</span> <br /><a class=\"linkbutton\" href=" +baseURL+ "/issues/view/" + data.id + ">View</a><button class=\"report-solved\" id=\"solve-" +data.id+ "\">Report Solved</button><span class=\"note\"><em class=\"num-reports\">"+data.solved+"</em> reports solved</span><br/><button class=\"edit-issue\" id = \"edit-"+data.id+"\">Edit</button><button class = \"delete-issue\" id = \"delete-"+data.id+"\">Delete</button></td></tr>";
 				  			$("td#fields-"+myid).html(myhtml);
+							$("td").delegate('.delete-issue',"click",deleteIssue);
+							$("td").delegate('.report-solved',"click",reportSolved);
+							$("td").delegate('.edit-issue',"click",editIssue);
 				  		} else {
 				  		  alert(data.status);
 				  		}
@@ -108,5 +112,11 @@ $(function() {
 	        },
 		  "json"
 		);
-	});
+	}
+
+	$('.delete-issue').on('click', deleteIssue);
+
+	$('.report-solved').on('click',reportSolved);
+
+	$('.edit-issue').on('click',editIssue);
 });
