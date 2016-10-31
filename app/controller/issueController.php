@@ -206,6 +206,7 @@ class IssueController {
 		$issue['added_by'] = $i->get('added_by');
 		$issue['img'] = $i->get('img');
 		$issue['id'] = $i->get('id');
+		$issue['solved'] = $i->get('solved');
 
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/issue.tpl';

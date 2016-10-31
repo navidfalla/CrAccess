@@ -34,7 +34,9 @@ $(function() {
 				if(data.status == 'success') {
 					$('tr#issue-'+myid).remove();
 				} else {
-				  alert(data.status);
+					if (data.status == "unauthorized"){
+  					  alert("Please login to report!")
+  				  	}
 				}
 			  },
 			  "json"
@@ -69,7 +71,9 @@ $(function() {
 					$('#solve-'+myid).addClass('reported');
 					$('#solve-'+myid).text("Undo Report")
 				} else {
-				  alert(data.status);
+					if (data.status == "unauthorized"){
+					  alert("Please login to report!")
+					}
 				}
 			  },
 			  "json"
@@ -100,7 +104,9 @@ $(function() {
 							$("td").delegate('.report-solved',"click",reportSolved);
 							$("td").delegate('.edit-issue',"click",editIssue);
 				  		} else {
-				  		  alert(data.status);
+							if (data.status == "unauthorized"){
+								alert("Please login to report!")
+							}
 				  		}
 				  	  },
 				  	  "json"

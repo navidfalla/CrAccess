@@ -17,7 +17,7 @@ var not_accessible_images = ["<?php echo implode('","', explode(", ", $issue['im
 				<td><div class="container" style="display: inline-block;">
 				      <img id="not_accessible_image" src="<?= BASE_URL ?>/public/img/<?= explode(",", $issue['img'])[0]; ?>" alt="<?= $issue['summary'] ?>">
 				  </div></td>
-				<td><button id="rotate_right" class="submit"></button></td>
+				<td><button id="rotate_right" class="submit">>></button></td>
 			</tr>
 		</table>
 	</div>
@@ -34,7 +34,7 @@ var not_accessible_images = ["<?php echo implode('","', explode(", ", $issue['im
 		<b>Description</b>: <?= $issue['description'] ?><br />
 		<b>Reporter</b>: <a href="account12.html"> <?= $issue['added_by'] ?> </a><br />
 		<b>Date Added</b>: <a href="91516.html"> <?= $issue['date_added'] ?> </a><br />
-		<a href="solved.html"><b>This issue has not been solved yet.</b></a>
+		<button class="report-solved" id="<?= 'solve-'.$issue['id'] ?>">Report Solved</button><span class="note"><em class="num-reports"><?= $issue['solved'] ?></em> reports solved</span><br/>
 	  </td>
 
 	</tr>
