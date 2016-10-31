@@ -24,11 +24,11 @@ var not_accessible_images = ["<?php echo implode('","', explode(", ", $issue['im
 
 	<div>
 	<table>
-		<tr>
+		<tr id="<?= 'issue-'.$issue['id'] ?>">
 		<td>
 		<!-- <td><img class="issue-image" src="<?= BASE_URL ?>/public/img/<?= explode(",",$issue['img'])[0]; ?>" alt="<?= $issue['summary'] ?>" /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td> -->
 		<div id="map"></div><input id="address" type="textbox" value="<?= $issue['address'] ?>" style="display: none;"></div><div>
-   </td>
+   		</td>
 		<td>
 		<b>Address</b>: <a href="<?= BASE_URL ?>/issues/view/<?= $issue['id'] ?>/map"> <?= $issue['address'] ?> </a> <br />
 		<b>Description</b>: <?= $issue['description'] ?><br />
