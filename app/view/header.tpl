@@ -11,8 +11,8 @@ function isSelected($pn, $link) {
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-  <meta name="description" content="Wheels is a website for reporting accesibility issues on Virginia Tech's campus">
-	<title>Hokie Gear | <?= $pageName ?></title>
+  <meta name="description" content="CrAccess is a website for reporting accesibility issues on Virginia Tech's campus">
+	<title>CrAccess | <?= $pageName ?></title>
 
 
 	<style type="text/css">
@@ -33,7 +33,7 @@ function isSelected($pn, $link) {
 
 	<div id="header">
 
-	<h1>Wheels</h1>
+	<h1>CrAccess</h1>
 
 	<hr>
 	<br>
