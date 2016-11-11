@@ -2,7 +2,7 @@
 <br>
 <br>
 
-<?php while($row = mysql_fetch_assoc($result)): ?>
+<?php foreach($result as $row){ ?>
 
 <table>
 	<tr id="<?= 'issue-'.$row['id'] ?>">
@@ -31,7 +31,7 @@
 
 
 
-<?php endwhile; ?>
+<?php }; ?>
 
 
 </div>

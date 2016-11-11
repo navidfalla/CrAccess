@@ -73,13 +73,29 @@ class IssueController {
   public function issues() {
 		$pageName = 'Issues';
 
-		$conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
-			or die ('Error: Could not connect to MySql database');
-		mysql_select_db(DB_DATABASE);
+		// $conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
+		// 	or die ('Error: Could not connect to MySql database');
+		// mysql_select_db(DB_DATABASE);
+		//
+		// $q = "SELECT issue.id, address, description, summary, date_added, img, username, solved FROM issue INNER JOIN user on added_by = user.id ORDER BY date_added; ";
+		$result = array();
 
-		$q = "SELECT issue.id, address, description, summary, date_added, img, username, solved FROM issue INNER JOIN user on added_by = user.id ORDER BY date_added; ";
-		$result = mysql_query($q);
-
+		$issues = Issue::getAllIssues();
+		foreach ($issues as $id) {
+			# code...
+			$i = Issue::loadById($id);
+			$issue = array();
+			$issue['id'] = $id;
+			$issue['address'] = $i->get('address');
+			$issue['description'] = $i->get('description');
+			$issue['summary'] = $i->get('summary');
+			$issue['date_added'] = $i->get('date_added');
+			$user = User::loadById($i->get('added_by'));
+			$issue['solved'] = $i->get('solved');
+			$issue['img'] = $i->get('img');
+			$issue['username'] = $user->get('username');
+			array_push($result, $issue);
+		};
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/issues.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';
