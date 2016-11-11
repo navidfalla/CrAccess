@@ -34,8 +34,6 @@ function isSelected($pn, $link) {
 	<div id="header">
 
 	<h1>CrAccess</h1>
-
-	<hr>
 	<br>
 
 	<ul id="primary-nav">
@@ -56,5 +54,5 @@ function isSelected($pn, $link) {
 ?>
 		<li style="border-style: none; text-align: left;"><div style="width: 250px; display: inline-block;"><input style="border: 2px solid; border-color: #CCC;" id="search_bar" type="text" name="search" placeholder="Search Issues.."></div></li>
 	</ul>
-
+	<hr>
 	</div>
