@@ -124,6 +124,10 @@ div#activity-view{
     clear: both;
 }
 
+div#follow-users div{
+    margin: 2%;
+}
+
 .main-image {
     height: auto;
     width: auto;

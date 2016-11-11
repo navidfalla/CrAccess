@@ -1,5 +1,4 @@
 <div id="content">
-
 	<div id="main">
 		<div id="report-view">
 		<a href="<?= BASE_URL ?>/report">
@@ -19,15 +18,30 @@
 			<b>Accessibility Issue Map</b>
 		</a>
 		</div>
+		<?php
+				if(isset($_SESSION['user'])) {
+		?>
 		<div id="activity-view">
 			<h3>Activity Feed</h3>
 		</div>
 	</div>
 	<div id="follow-view">
 		<h3>Who to follow</h3>
-		<div id="follow-users"></div>
+		<div id="follow-users">
+			<?php
+			foreach ($users as $user) {
+				echo '<div id='.$user[0].'><label>'.$user[1].'</label><button>Follow</button></div>';
+			}
+			?>
+		</div>
 	</div>
-
+	<?php
+		} else {
+	?>
+	</div>
+	<?php
+		}
+	?>
 </div>
 
 </div>

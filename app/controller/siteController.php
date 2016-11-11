@@ -47,6 +47,11 @@ class SiteController {
 
   public function index() {
 		$pageName = 'Home';
+		if (isset($_SESSION['user'])){
+			$users = User::getAllUsers();
+		}else{
+			$users = null;
+		}
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/index.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';

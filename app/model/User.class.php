@@ -42,10 +42,28 @@ class User extends DbObject {
         $db->store($this, __CLASS__, self::DB_TABLE, $db_properties);
     }
 
+
     public static function loadById($id) {
         $db = Db::instance();
         $obj = $db->fetchById($id, __CLASS__, self::DB_TABLE);
         return $obj;
+    }
+
+    public static function getAllUsers($limit=null) {
+        $query = sprintf(" SELECT id, username FROM %s ORDER BY privilege DESC ",
+            self::DB_TABLE
+            );
+        $db = Db::instance();
+        $result = $db->lookup($query);
+        if(!mysql_num_rows($result))
+            return null;
+        else {
+            $objects = array();
+            while($row = mysql_fetch_assoc($result)) {
+                $objects[] = [$row['id'],$row['username']];
+            }
+            return ($objects);
+        }
     }
 
     public static function loadByUsername($username=null) {
