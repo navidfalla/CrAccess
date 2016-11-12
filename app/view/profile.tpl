@@ -7,23 +7,21 @@
 	$edit = "";
 	if ($user['privilege'] == 1){
 		$edit = "disabled";
-		$u = "selected";
+		$u = "checked";
 	}
 	if ($user['privilege'] == 0){
-		$m = "selected";
+		$m = "checked";
 	}
 	if ($user['privilege'] == 2){
-		$a = "selected";
+		$a = "checked";
 	}
 ?>
 <div id="<?= $_SESSION['user_id'] ?>" class="profile">
 	<label>Username: </label><input type='text' name='username' class="form-control" value="<?= $user['username']?>" disabled/>
 	<label>User Type: </label>
-	<select class="form-control" name='usertype' <?= $edit?> >
-		<option id='admin' <?= $a?>>Admin</option>
-		<option id='moderator' <?= $m?>>Moderator</option>
-		<option id='user' <?= $u?>>User</option>
-	</select>
+	<label class="checkbox-inline"><input type='checkbox' id='admin' value='Admin' <?= $a?> disabled/>Admin</label>
+	<label class="checkbox-inline"><input type='checkbox' id='moderator' value='Moderator' <?= $m?> disabled/>Moderator</label>
+	<label class="checkbox-inline"><input type='checkbox' id='user' value='User' <?= $u?> disabled/>User</label>
 	<label>First Name: </label><input type='text' name='first_name' class="form-control" value="<?= $user['firstname']?>" disabled/>
 	<label>Last Name: </label><input type='text' name='last_name' class="form-control" value="<?= $user['lastname']?>" disabled/>
 	<label>Email Address: </label><input type='email' name='email' class="form-control" value="<?= $user['email']?>" disabled/>
