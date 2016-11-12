@@ -5,39 +5,43 @@ class User extends DbObject {
 
     protected $id;
     protected $username;
-    protected $pw;
+    protected $password;
     protected $first_name;
     protected $last_name;
     protected $email;
+    protected $privilege;
 
     public function __construct($args = array()) {
         $defaultArgs = array(
             'id' => null,
             'username' => '',
-            'pw' => '',
+            'password' => '',
             'email' => null,
             'first_name' => null,
-            'last_name' => null
+            'last_name' => null,
+            'privilege' => 1
             );
 
         $args += $defaultArgs;
 
         $this->id = $args['id'];
         $this->username = $args['username'];
-        $this->pw = $args['pw'];
+        $this->password = $args['password'];
         $this->email = $args['email'];
         $this->first_name = $args['first_name'];
         $this->last_name = $args['last_name'];
+        $this->privilege = $args['privilege'];
     }
 
     public function save() {
         $db = Db::instance();
         $db_properties = array(
             'username' => $this->username,
-            'pw' => $this->pw,
+            'password' => $this->password,
             'email' => $this->email,
             'first_name' => $this->first_name,
-            'last_name' => $this->last_name
+            'last_name' => $this->last_name,
+            'privilege' => $this->privilege
             );
         $db->store($this, __CLASS__, self::DB_TABLE, $db_properties);
     }
@@ -83,6 +87,19 @@ class User extends DbObject {
             $obj = self::loadById($row['id']);
             return ($obj);
         }
+    }
+
+    public static function update($info = null){
+        $query = sprintf("UPDATE user SET username = '%s', first_name = '%s', last_name = '%s', email = '%s', password = '%s' WHERE id = %d ",
+            $info['username'],
+            $info['firstname'],
+            $info['lastname'],
+            $info['email'],
+            $info['password'],
+            $info['user_id']
+            );
+        $db = Db::instance();
+        $db->execute($query);
     }
 
 }
