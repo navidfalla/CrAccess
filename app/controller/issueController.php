@@ -136,6 +136,18 @@ class IssueController {
 		));
 
 		$issue->save();
+		// $datetime = new DateTime();
+		// // $datetime->format('Y-m-d H:i:s')
+		$id = Issue::loadLastAdded();
+		// log the event
+			$e = new Event(array(
+					'event_type_id' => EventType::getIdByName('report_issue'),
+					'user_1_id' => $_SESSION['user_id'],
+					'issue_id' => $id,
+			));
+
+			$e->save();
+			include_once SYSTEM_PATH.'/view/reportsuccess.tpl';
 	}
 
 	public function deleteIssue($id) {

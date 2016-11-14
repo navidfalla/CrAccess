@@ -13,13 +13,17 @@ function formatEvent($event=null) {
   switch($eventTypeName) {
     case 'report_issue':
       $user1name = User::getUsernameById($event->get('user_1_id'));
-      $issue = Product::loadById($event->get('issue_id'));
+      $issue = Issue::loadById($event->get('issue_id'));
       $summary = $issue->get('summary');
       $address = $issue->get('address');
       $date = date("m-j-y g:i a", strtotime($issue->get('date_added')));
       $issueURL = BASE_URL.'/issue/view/'.$issue->get('id');
       $date = date("m-j-y g:i a", strtotime($event->get('date_created')));
 
+      if($user1name==$_SESSION['user']){
+          $user1name = 'You';
+      }
+      
       $formattedEvent = sprintf('%s reported an issue: <a href="%s">%s</a> at %s on %s.',
         $user1name,
         $issueURL,
