@@ -41,9 +41,12 @@ textarea {
     resize: none;
 }
 
+#header{
+  text-align: center;
+}
+
 #primary-nav{
     width: 100%;
-    text-align: center;
 }
 
 #primary-nav li {
