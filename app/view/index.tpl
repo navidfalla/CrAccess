@@ -30,7 +30,7 @@
 		<div id="follow-users">
 			<?php
 			foreach ($users as $user) {
-				echo '<div id='.$user[0].'><label>'.$user[1].'</label><button>Follow</button></div>';
+				echo '<div id='.$user[0].'><label>'.$user[1].'</label><button class="follow-user">Follow</button></div>';
 			}
 			?>
 		</div>

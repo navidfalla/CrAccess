@@ -120,9 +120,32 @@ $(function() {
 		);
 	}
 
+	function followUser(e){
+			var followeeId = $(this).parent().attr('id')
+			console.log(followeeId);
+			$.post(
+			  baseURL+'/user/follow',
+				{'userId': followeeId},
+			  function(data) {
+				if(data.status == 'success') {
+					// Follow successfill
+					// Already followed so change text to Following
+					$(this).html('Following')
+				} else {
+					if (data.error != ""){
+  					  alert(data.error);
+  				  	}
+				}
+			  },
+			  "json"
+			);
+	}
+
 	$('.delete-issue').on('click', deleteIssue);
 
 	$('.report-solved').on('click',reportSolved);
 
 	$('.edit-issue').on('click',editIssue);
+
+	$('.follow-user').on('click', followUser)
 });

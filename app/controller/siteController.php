@@ -38,9 +38,15 @@ class SiteController {
 				$this->checkUsername($username);
 				break;
 
-      default:
-        header('Location: '.BASE_URL);
-        exit();
+			case 'follow':
+				$followeeId = $_POST['userId'];
+				$this->followUser($followeeId);
+				break;
+
+			//
+      // default:
+      //   header('Location: '.BASE_URL);
+      //   exit();
 
 		}
 	}
@@ -106,4 +112,26 @@ class SiteController {
 		unset($_SESSION['user_id']);
 		header('Location: '.BASE_URL.'/login/');
 	}
+
+	public function followUser($followeeId) {
+			// user is logged in
+			// get user ID for followee
+			$followee = User::loadById($followeeId);
+			$followeeUsername = $followee->get('username');
+			echo 'here';
+			// does this follow already exist?
+			$f = Follow::loadByUsernames($_SESSION['user'], $followeeUsername);
+			if($f != null) {
+				// follow already happened!
+				$json = array('error' => 'You already followed this user.');
+				echo json_encode($json);
+			}
+			// save the new follow
+				$f = new Follow(array(
+					'follower_id' => $_SESSION['user_id'],
+					'followee_id' => $followeeId
+					));
+				$f->save();
+		}
+
 }
