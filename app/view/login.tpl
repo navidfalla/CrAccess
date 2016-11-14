@@ -7,7 +7,7 @@
   <tr><td>Email:</td><td> <input type="text" name="un"></td></tr>
   <tr><td>Password:</td><td> <input type="password" name="pw"></td><tr>
 
-  <tr><td><a href="signup.html">Sign Up</a></td><td><input class="submit" type="submit" value="Sign In"></td></tr>
+  <tr><td><a href="<?= BASE_URL ?>/signup">Sign Up</a></td><td><input class="submit" type="submit" value="Sign In"></td></tr>
 </table>
 </form>
 

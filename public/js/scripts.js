@@ -130,6 +130,27 @@ $(function() {
 		  "json"
 		);
 	}
+
+
+	function followUser(e){
+			var button = $(this);
+			var followeeId = $(button).parent().attr('id');
+			$.post(
+			  baseURL+'/user/follow',
+				{'userId': followeeId},
+					function(data) {
+	        if(data.success == 'success') {
+	          // Follow successful
+	          // Already followed, so remove the button
+	          $(button).html('Following');
+	        } else if (data.error != '') {
+	          alert(data.error); // show error as popup
+	        }
+	      },
+	      'json'
+			);
+	}
+
 	function updateProfile(id){
 		$.ajax({
 			type: "POST",
@@ -145,9 +166,12 @@ $(function() {
 			dataType: "json"
 		});
 	}
+
 	$('.delete-issue').on('click', deleteIssue);
 
 	$('.report-solved').on('click',reportSolved);
 
 	$('.edit-issue').on('click',editIssue);
+
+	$('.follow-user').on('click', followUser)
 });

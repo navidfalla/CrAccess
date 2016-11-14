@@ -15,7 +15,7 @@ class Issue extends DbObject {
     public function __construct($args = array()) {
         $defaultArgs = array(
             'id' => null,
-            'address ' => '',
+            'address' => '',
             'description' => null,
             'summary' => '',
             'date_added' => null,
@@ -36,7 +36,8 @@ class Issue extends DbObject {
         $this->solved = $args['solved'];
     }
 
-    public function save() {
+    public function save()
+    {
         $db = Db::instance();
         $db_properties = array(
             'address' => $this->address,
@@ -55,6 +56,39 @@ class Issue extends DbObject {
         return $obj;
     }
 
+    public static function loadByTimestamp($timestamp){
+      $query = sprintf(" SELECT id FROM %s WHERE date_added=%s",
+          self::DB_TABLE,
+          $timestamp
+          );
+      $db = Db::instance();
+      $result = $db->lookup($query);
+      if(!mysql_num_rows($result))
+          return null;
+      else {
+          $objects = array();
+          while($row = mysql_fetch_assoc($result)) {
+              $objects[] = $row;
+          }
+          return ($objects);
+      }
+
+    }
+
+    public static function loadLastAdded(){
+      $query = sprintf("SELECT * FROM %s ORDER BY `date_added` DESC LIMIT 1",
+          self::DB_TABLE
+        );
+      $db = Db::instance();
+      $result = $db->lookup($query);
+      if(!mysql_num_rows($result))
+          return null;
+      else {
+        $row = mysql_fetch_assoc($result);
+        return ($row['id']);
+      }
+  }
+
     public static function getAllIssues($limit=null) {
         $query = sprintf(" SELECT id FROM %s",
             self::DB_TABLE
@@ -71,22 +105,5 @@ class Issue extends DbObject {
             return ($objects);
         }
     }
-    // public static function getAllIssues($limit=null) {
-    //     $query = sprintf(" SELECT id FROM %s ORDER BY date_added DESC ",
-    //         self::DB_TABLE
-    //         );
-    //     $db = Db::instance();
-    //     $result = $db->lookup($query);
-    //     if(!mysql_num_rows($result))
-    //         return null;
-    //     else {
-    //         // $objects = array();
-    //         // while($row = mysql_fetch_assoc($result)) {
-    //         //     $objects[] = self::loadById($row['id']);
-    //         // }
-    //         // return ($objects);
-    //         return $result;
-    //     }
-    // }
 
 }

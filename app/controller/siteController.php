@@ -23,9 +23,22 @@ class SiteController {
 				$this->logout();
 				break;
 
-				case 'myaccount':
-					$this->myaccount();
+			case 'signup':
+				$this->signup();
+				break;
+
+			case 'signupProcess':
+				 $this->signupProcess();
 					break;
+
+			case 'myaccount':
+				$this->myaccount();
+				break;
+
+			case 'profile_view':
+				$user_id = $_GET['user_id'];
+				$this->profile($user_id);
+				break;
 
 			case 'processLogin':
 				$username = $_POST['un'];
@@ -49,9 +62,15 @@ class SiteController {
 				$this->checkUsername($username);
 				break;
 
-      default:
-        header('Location: '.BASE_URL);
-        exit();
+			case 'follow':
+				$followeeId = $_POST['userId'];
+				$this->followUser($followeeId);
+				break;
+
+			//
+      // default:
+      //   header('Location: '.BASE_URL);
+      //   exit();
 
 		}
 	}
@@ -59,10 +78,17 @@ class SiteController {
   public function index() {
 		$pageName = 'Home';
 		if (isset($_SESSION['user'])){
-			$users = User::getAllUsers();
+			$followees = Follow::getFolloweesByUserId($_SESSION['user_id']);
+			$followeeIds = array();
+			foreach ($followees as $followee) {
+				$followeeIds[] = $followee->get('id');
+			}
+			$users = User::getAllUsersExceptThis($_SESSION['user_id']);
+			$events = Event::getEventsByUserId($_SESSION['user_id']);
 		}else{
 			$users = null;
 		}
+		include_once SYSTEM_PATH.'/view/helpers.php';
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/index.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';
@@ -87,7 +113,7 @@ class SiteController {
 			$user['password'] = $u->get('password');
 			$user['email'] = $u->get('email');
 			include_once SYSTEM_PATH.'/view/header.tpl';
-			include_once SYSTEM_PATH.'/view/profile.tpl';
+			include_once SYSTEM_PATH.'/view/myaccount.tpl';
 			include_once SYSTEM_PATH.'/view/footer.tpl';
 		}else {
 			$user = null;
@@ -98,6 +124,59 @@ class SiteController {
 
 		//  $sql = "SELECT img FROM issue INNER JOIN user on added_by = user.id WHERE user.id = 1 AND issue.id = 2 ORDER BY date_added; ";
 		//  $imgs = explode(", ", mysql_fetch_assoc(mysql_query($sql)));
+
+	}
+
+	public function profile($user_id){
+		$pageName = 'profile_view';
+		$user = array();
+		$u = User::loadById($user_id);
+		// print_r($u);
+		if ($u != null){
+			$user['username'] = $u->get('username');
+			$user['privilege'] = $u->get('privilege');
+			$user['firstname'] = $u->get('first_name');
+			$user['lastname'] = $u->get('last_name');
+			$user['password'] = $u->get('password');
+			$user['email'] = $u->get('email');
+			include_once SYSTEM_PATH.'/view/header.tpl';
+			include_once SYSTEM_PATH.'/view/profile.tpl';
+			include_once SYSTEM_PATH.'/view/footer.tpl';
+		}else {
+			$user = null;
+			header('Location: '.BASE_URL."/");
+			exit();
+		}
+
+	}
+
+	public function signup() {
+		$pageName = 'signup';
+			include_once SYSTEM_PATH.'/view/header.tpl';
+			include_once SYSTEM_PATH.'/view/signup.tpl';
+			include_once SYSTEM_PATH.'/view/footer.tpl';
+	}
+
+	public function signupProcess() {
+
+		$first_name = $_POST['first_name'];
+		$last_name = $_POST['last_name'];
+		$email = $_POST['email'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+
+
+		$nu = new User (array (
+		'first_name' => $first_name,
+		'last_name' => $last_name,
+		'email' => $email,
+		'username' => $username,
+		'password' => $password
+
+		));
+		$nu->save();
+
+		include_once SYSTEM_PATH.'/view/signupsuccess.tpl';
 
 	}
 
@@ -142,4 +221,36 @@ class SiteController {
 		unset($_SESSION['user_id']);
 		header('Location: '.BASE_URL.'/login/');
 	}
+
+	public function followUser($followeeId) {
+			// user is logged in
+			// get user ID for followee
+			$followee = User::loadById($followeeId);
+			$followeeUsername = $followee->get('username');
+			// does this follow already exist?
+			$f = Follow::loadByUsernames($_SESSION['user'], $followeeUsername);
+			if($f != null) {
+				// follow already happened!
+				$json = array('error' => 'You already followed this user.');
+				echo json_encode($json);
+			}
+		else{
+			// log the event
+			$e = new Event(array(
+					'event_type_id' => EventType::getIdByName('follow_user'),
+					'user_1_id' => $_SESSION['user_id'],
+					'user_2_id' => $followee->get('id')
+			));
+			$e->save();
+			// save the new follow
+				$f = new Follow(array(
+					'follower_id' => $_SESSION['user_id'],
+					'followee_id' => $followeeId
+					));
+				$f->save();
+				$json = array('success' => 'success');
+				echo json_encode($json);
+			}
+		}
+
 }
