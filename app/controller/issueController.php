@@ -73,16 +73,10 @@ class IssueController {
   public function issues() {
 		$pageName = 'Issues';
 
-		// $conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
-		// 	or die ('Error: Could not connect to MySql database');
-		// mysql_select_db(DB_DATABASE);
-		//
-		// $q = "SELECT issue.id, address, description, summary, date_added, img, username, solved FROM issue INNER JOIN user on added_by = user.id ORDER BY date_added; ";
-		$result = array();
+		$results = array();
 
 		$issues = Issue::getAllIssues();
 		foreach ($issues as $id) {
-			# code...
 			$i = Issue::loadById($id);
 			$issue = array();
 			$issue['id'] = $id;
@@ -94,8 +88,9 @@ class IssueController {
 			$issue['solved'] = $i->get('solved');
 			$issue['img'] = $i->get('img');
 			$issue['username'] = $user->get('username');
-			array_push($result, $issue);
+			array_push($results, $issue);
 		};
+
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/issues.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';
@@ -126,7 +121,7 @@ class IssueController {
 
 		$issue = new Issue(array(
 			'id' => null,
-			'address ' => $address,
+			'address' => $address,
 			'description' => $description,
 			'summary' => $summary,
 			'date_added' => null,
@@ -137,7 +132,7 @@ class IssueController {
 
 		$issue->save();
 		// $datetime = new DateTime();
-		// // $datetime->format('Y-m-d H:i:s')
+		// $datetime->format('Y-m-d H:i:s')
 		$id = Issue::loadLastAdded();
 		// log the event
 			$e = new Event(array(
@@ -148,6 +143,7 @@ class IssueController {
 
 			$e->save();
 			include_once SYSTEM_PATH.'/view/reportsuccess.tpl';
+
 	}
 
 	public function deleteIssue($id) {
@@ -157,7 +153,8 @@ class IssueController {
 			mysql_select_db(DB_DATABASE);
 
 			$sql =	"DELETE FROM issue WHERE id='".$id."'";
-			if (mysql_query($sql)) {
+			$sql_event = "DELETE FROM event WHERE issue_id='".$id."'";
+			if (mysql_query($sql) && mysql_query($sql_event)) {
 				$json = array( 'status' => 'success' );
 			}else{
 				$json = array( 'status' => 'fail' );

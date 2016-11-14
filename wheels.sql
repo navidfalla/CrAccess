@@ -1,11 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
--- http://www.phpmyadmin.net
+-- version 4.0.10.17
+-- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2016 at 06:11 PM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 5.6.24
+
+
+-- Generation Time: Oct 31, 2016 at 10:17 PM
+-- Server version: 5.5.52
+-- PHP Version: 5.6.26
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `wheels`
@@ -94,16 +97,19 @@ INSERT INTO `follow` (`id`, `follower_id`, `followee_id`, `date_created`) VALUES
 -- Table structure for table `issue`
 --
 
-CREATE TABLE `issue` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `issue` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `address` varchar(100) NOT NULL,
   `description` varchar(400) NOT NULL,
   `summary` varchar(200) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `added_by` int(11) NOT NULL,
   `img` varchar(500) NOT NULL,
-  `solved` int(11) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `solved` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `added_by` (`added_by`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+
 
 --
 -- Dumping data for table `issue`
@@ -118,21 +124,23 @@ INSERT INTO `issue` (`id`, `address`, `description`, `summary`, `date_added`, `a
 (47, '', 'Write a description of the issue in detail...', 'Write a summary less than 20 words...', '2016-11-14 16:50:41', 1, '', 0),
 (48, '', 'Write a description of the issue in detail...', 'Write a summary less than 20 words...', '2016-11-14 16:54:25', 4, '', 0);
 
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `privilege` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `privilege` int(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `user`
@@ -216,6 +224,11 @@ ALTER TABLE `issue`
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
+=======
+(2, 'Nikola', 'Tesla', 'n.tesla@tesla.net', 'tesla', '1234', 1);
+
+--
+>>>>>>> navid
 -- Constraints for dumped tables
 --
 

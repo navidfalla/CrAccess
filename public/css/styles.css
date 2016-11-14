@@ -45,6 +45,10 @@ textarea {
   text-align: center;
 }
 
+#header h1{
+  font-weight: bold;
+}
+
 #primary-nav{
     width: 100%;
 }

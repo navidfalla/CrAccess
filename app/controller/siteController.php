@@ -23,9 +23,22 @@ class SiteController {
 				$this->logout();
 				break;
 
-				case 'myaccount':
-					$this->myaccount();
+			case 'signup':
+				$this->signup();
+				break;
+
+			case 'signupProcess':
+				 $this->signupProcess();
 					break;
+
+			case 'myaccount':
+				$this->myaccount();
+				break;
+
+			case 'profile_view':
+				$user_id = $_GET['user_id'];
+				$this->profile($user_id);
+				break;
 
 			case 'processLogin':
 				$username = $_POST['un'];
@@ -100,7 +113,7 @@ class SiteController {
 			$user['password'] = $u->get('password');
 			$user['email'] = $u->get('email');
 			include_once SYSTEM_PATH.'/view/header.tpl';
-			include_once SYSTEM_PATH.'/view/profile.tpl';
+			include_once SYSTEM_PATH.'/view/myaccount.tpl';
 			include_once SYSTEM_PATH.'/view/footer.tpl';
 		}else {
 			$user = null;
@@ -111,6 +124,59 @@ class SiteController {
 
 		//  $sql = "SELECT img FROM issue INNER JOIN user on added_by = user.id WHERE user.id = 1 AND issue.id = 2 ORDER BY date_added; ";
 		//  $imgs = explode(", ", mysql_fetch_assoc(mysql_query($sql)));
+
+	}
+
+	public function profile($user_id){
+		$pageName = 'profile_view';
+		$user = array();
+		$u = User::loadById($user_id);
+		// print_r($u);
+		if ($u != null){
+			$user['username'] = $u->get('username');
+			$user['privilege'] = $u->get('privilege');
+			$user['firstname'] = $u->get('first_name');
+			$user['lastname'] = $u->get('last_name');
+			$user['password'] = $u->get('password');
+			$user['email'] = $u->get('email');
+			include_once SYSTEM_PATH.'/view/header.tpl';
+			include_once SYSTEM_PATH.'/view/profile.tpl';
+			include_once SYSTEM_PATH.'/view/footer.tpl';
+		}else {
+			$user = null;
+			header('Location: '.BASE_URL."/");
+			exit();
+		}
+
+	}
+
+	public function signup() {
+		$pageName = 'signup';
+			include_once SYSTEM_PATH.'/view/header.tpl';
+			include_once SYSTEM_PATH.'/view/signup.tpl';
+			include_once SYSTEM_PATH.'/view/footer.tpl';
+	}
+
+	public function signupProcess() {
+
+		$first_name = $_POST['first_name'];
+		$last_name = $_POST['last_name'];
+		$email = $_POST['email'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+
+
+		$nu = new User (array (
+		'first_name' => $first_name,
+		'last_name' => $last_name,
+		'email' => $email,
+		'username' => $username,
+		'password' => $password
+
+		));
+		$nu->save();
+
+		include_once SYSTEM_PATH.'/view/signupsuccess.tpl';
 
 	}
 
