@@ -1,7 +1,7 @@
 <?php
 
 define('SYSTEM_PATH', dirname(__FILE__)); # location of 'app' folder - don't change
-define('BASE_URL','http://localhost');
+define('BASE_URL','http://localhost/cs5774/CrAccess');
 
 define('DB_HOST','127.0.0.1');
 define('DB_USER','root');

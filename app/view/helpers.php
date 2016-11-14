@@ -17,14 +17,14 @@ function formatEvent($event=null) {
       $summary = $issue->get('summary');
       $address = $issue->get('address');
       $date = date("m-j-y g:i a", strtotime($issue->get('date_added')));
-      $issueURL = BASE_URL.'/issue/view/'.$issue->get('id');
+      $issueURL = BASE_URL.'/issues/view/'.$issue->get('id');
       $date = date("m-j-y g:i a", strtotime($event->get('date_created')));
 
       if($user1name==$_SESSION['user']){
           $user1name = 'You';
       }
       
-      $formattedEvent = sprintf('%s reported an issue: <a href="%s">%s</a> at %s on %s.',
+      $formattedEvent = sprintf('%s reported an issue: <a href="%s">%s</a> at <b>address:</b> %s on <b>date:</b> %s.',
         $user1name,
         $issueURL,
         $summary,

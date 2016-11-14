@@ -21,6 +21,17 @@ $(function() {
 			$('#search_bar').animate({width: "173px"}, 500);
 	});
 
+	$("#edit-profile").on("click", function(e){
+		if ($(this).html() == "Edit Profile"){
+			$("input").prop('disabled', false);
+			$(this).html("Save");
+		}else{
+			$("input").prop('disabled', true);
+			updateProfile($(this).parent().attr('id'));
+			$(this).html("Edit Profile");
+		}
+	});
+
 	// $.each($('.delete-form'), function (idx) {
 	// 	$(this).submit(function (e) {return confirm('Delete?');});
 	// });
@@ -120,6 +131,7 @@ $(function() {
 		);
 	}
 
+
 	function followUser(e){
 			var button = $(this);
 			var followeeId = $(button).parent().attr('id');
@@ -137,6 +149,22 @@ $(function() {
 	      },
 	      'json'
 			);
+	}
+
+	function updateProfile(id){
+		$.ajax({
+			type: "POST",
+			url: baseURL+'/myaccount/update/',
+			data: {
+				'user_id': id,
+				'username': $("input[name=username]").val(),
+				'firstname': $("input[name=first_name]").val(),
+				'lastname': $("input[name=last_name]").val(),
+				'email': $("input[name=email]").val(),
+				'password': $("input[name=password]").val()
+			},
+			dataType: "json"
+		});
 	}
 
 	$('.delete-issue').on('click', deleteIssue);

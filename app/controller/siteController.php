@@ -33,6 +33,17 @@ class SiteController {
 				$this->processLogin($username, $password);
 				break;
 
+			case 'processProfile':
+				$info = array();
+				$info['user_id'] = $_POST['user_id'];
+				$info['username'] = $_POST['username'];
+				$info['firstname'] = $_POST['firstname'];
+				$info['lastname'] = $_POST['lastname'];
+				$info['email'] = $_POST['email'];
+				$info['password'] = $_POST['password'];
+				$this->processProfile($info);
+				break;
+
 			case 'checkUsername':
 				$username = $_GET['username'];
 				$this->checkUsername($username);
@@ -79,16 +90,27 @@ class SiteController {
 
 	public function myaccount() {
 		$pageName = 'My Account';
-
 		$user = array();
-		$user['username'] = $_SESSION['user'];
+		if (isset($_SESSION['user'])){
+			$u = User::loadById($_SESSION['user_id']);
+			$user['username'] = $u->get('username');
+			$user['privilege'] = $u->get('privilege');
+			$user['firstname'] = $u->get('first_name');
+			$user['lastname'] = $u->get('last_name');
+			$user['password'] = $u->get('password');
+			$user['email'] = $u->get('email');
+			include_once SYSTEM_PATH.'/view/header.tpl';
+			include_once SYSTEM_PATH.'/view/profile.tpl';
+			include_once SYSTEM_PATH.'/view/footer.tpl';
+		}else {
+			$user = null;
+			header('Location: '.BASE_URL."/login");
+			exit();
+		}
+
 
 		//  $sql = "SELECT img FROM issue INNER JOIN user on added_by = user.id WHERE user.id = 1 AND issue.id = 2 ORDER BY date_added; ";
 		//  $imgs = explode(", ", mysql_fetch_assoc(mysql_query($sql)));
-
-		include_once SYSTEM_PATH.'/view/header.tpl';
-		include_once SYSTEM_PATH.'/view/myaccount.tpl';
-		include_once SYSTEM_PATH.'/view/footer.tpl';
 
 	}
 
@@ -112,6 +134,20 @@ class SiteController {
 			header('Location: '.BASE_URL."/login");
 			exit();
 		}
+	}
+
+	public function processProfile($info) {
+
+		$_SESSION['username']=$info['username'];
+		//
+		$u = User::loadById($info['user_id']);
+		$u->update($info);
+		// $u->set('first_name',$info['first_name']);
+		// $u->set('last_name',$info['last_name']);
+		// $u->set('password',$info['password']);
+		// $u->set('email',$info['email']);
+
+		header('Location: '.BASE_URL."/myaccount");
 	}
 
 	public function logout() {
