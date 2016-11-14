@@ -121,23 +121,21 @@ $(function() {
 	}
 
 	function followUser(e){
-			var followeeId = $(this).parent().attr('id')
-			console.log(followeeId);
+			var button = $(this);
+			var followeeId = $(button).parent().attr('id');
 			$.post(
 			  baseURL+'/user/follow',
 				{'userId': followeeId},
-			  function(data) {
-				if(data.status == 'success') {
-					// Follow successfill
-					// Already followed so change text to Following
-					$(this).html('Following')
-				} else {
-					if (data.error != ""){
-  					  alert(data.error);
-  				  	}
-				}
-			  },
-			  "json"
+					function(data) {
+	        if(data.success == 'success') {
+	          // Follow successful
+	          // Already followed, so remove the button
+	          $(button).html('Following');
+	        } else if (data.error != '') {
+	          alert(data.error); // show error as popup
+	        }
+	      },
+	      'json'
 			);
 	}
 

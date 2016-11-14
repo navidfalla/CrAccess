@@ -30,7 +30,12 @@
 		<div id="follow-users">
 			<?php
 			foreach ($users as $user) {
-				echo '<div id='.$user[0].'><label>'.$user[1].'</label><button class="follow-user">Follow</button></div>';
+				if(in_array($user[0], $followeeIds)){
+				echo '<div id='.$user[0].'><label>'.$user[1].'</label><button class="follow-user">Following</button></div>';
+				}
+				else{
+					echo '<div id='.$user[0].'><label>'.$user[1].'</label><button class="follow-user">Follow</button></div>';
+				}
 			}
 			?>
 		</div>

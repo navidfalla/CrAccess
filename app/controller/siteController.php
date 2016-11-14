@@ -54,10 +54,17 @@ class SiteController {
   public function index() {
 		$pageName = 'Home';
 		if (isset($_SESSION['user'])){
-			$users = User::getAllUsers();
+			$followees = Follow::getFolloweesByUserId($_SESSION['user_id']);
+			$followeeIds = array();
+			foreach ($followees as $followee) {
+				$followeeIds[] = $followee->get('id');
+			}
+			$users = User::getAllUsersExceptThis($_SESSION['user_id']);
+			$events = Event::getEventsByUserId($_SESSION['user_id']);
 		}else{
 			$users = null;
 		}
+		include_once SYSTEM_PATH.'/view/helpers.php';
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/index.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';
