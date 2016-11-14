@@ -49,8 +49,8 @@ class User extends DbObject {
         return $obj;
     }
 
-    public static function getAllUsers($limit=null) {
-        $query = sprintf(" SELECT id, username FROM %s ORDER BY privilege DESC ",
+    public static function getAllUsersExceptThis($userId, $limit=null) {
+        $query = sprintf(" SELECT * FROM %s WHERE id!=$userId ORDER BY privilege DESC ",
             self::DB_TABLE
             );
         $db = Db::instance();
@@ -83,6 +83,27 @@ class User extends DbObject {
             $obj = self::loadById($row['id']);
             return ($obj);
         }
+    }
+
+
+    // given a user ID, return that user's username
+    public static function getUsernameById($userID=null) {
+      if($userID == null)
+        return null;
+
+      $query = sprintf("SELECT username FROM `%s` WHERE id = %d ",
+          self::DB_TABLE,
+          $userID
+        );
+      $db = Db::instance();
+      $result = $db->lookup($query);
+      if(!mysql_num_rows($result))
+          return null;
+      else {
+          $row = mysql_fetch_assoc($result);
+          $username = $row['username'];
+          return ($username);
+      }
     }
 
 }

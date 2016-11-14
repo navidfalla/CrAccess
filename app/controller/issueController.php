@@ -128,6 +128,13 @@ class IssueController {
 		$img = $_POST['img'];
 		$added_by = $_POST['added_by'];
 
+		// log the event
+		$e = new Event(array(
+				'event_type_id' => EventType::getIdByName('report_issue'),
+				'user_1_id' => $_SESSION['user_id'],
+		));
+		$e->save();
+
 		$sql = "INSERT INTO issue (address, description, summary, img, added_by) VALUES ('".$address."', '".$description."', '".$summary."', '".$img."', '".$added_by."')";
 		if(mysql_query($sql)) {
 			include_once SYSTEM_PATH.'/view/reportsuccess.tpl';
@@ -143,7 +150,6 @@ class IssueController {
 			$conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
 				or die ('Error: Could not connect to MySql database');
 			mysql_select_db(DB_DATABASE);
-
 
 			$sql =	"DELETE FROM issue WHERE id='".$id."'";
 			if (mysql_query($sql)) {

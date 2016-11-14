@@ -71,22 +71,5 @@ class Issue extends DbObject {
             return ($objects);
         }
     }
-    // public static function getAllIssues($limit=null) {
-    //     $query = sprintf(" SELECT id FROM %s ORDER BY date_added DESC ",
-    //         self::DB_TABLE
-    //         );
-    //     $db = Db::instance();
-    //     $result = $db->lookup($query);
-    //     if(!mysql_num_rows($result))
-    //         return null;
-    //     else {
-    //         // $objects = array();
-    //         // while($row = mysql_fetch_assoc($result)) {
-    //         //     $objects[] = self::loadById($row['id']);
-    //         // }
-    //         // return ($objects);
-    //         return $result;
-    //     }
-    // }
 
 }

@@ -22,7 +22,22 @@
 				if(isset($_SESSION['user'])) {
 		?>
 		<div id="activity-view">
-			<h3>Activity Feed</h3>
+			<?php if(isset($events)): ?>
+
+			<h2>Recent Activity</h2>
+			  <?php if(count($events) == 0): ?>
+			<p>No recent activity.</p>
+			  <?php else: ?>
+
+			<ul>
+			  <?php foreach($events as $event): ?>
+			    <li><?= formatEvent($event) ?></li>
+			  <?php endforeach; ?>
+			</ul>
+
+			  <?php endif; ?>
+
+			<?php endif; ?>
 		</div>
 	</div>
 	<div id="follow-view">

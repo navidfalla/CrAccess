@@ -125,7 +125,6 @@ class SiteController {
 			// get user ID for followee
 			$followee = User::loadById($followeeId);
 			$followeeUsername = $followee->get('username');
-			echo 'here';
 			// does this follow already exist?
 			$f = Follow::loadByUsernames($_SESSION['user'], $followeeUsername);
 			if($f != null) {
@@ -133,12 +132,23 @@ class SiteController {
 				$json = array('error' => 'You already followed this user.');
 				echo json_encode($json);
 			}
+		else{
+			// log the event
+			$e = new Event(array(
+					'event_type_id' => EventType::getIdByName('follow_user'),
+					'user_1_id' => $_SESSION['user_id'],
+					'user_2_id' => $followee->get('id')
+			));
+			$e->save();
 			// save the new follow
 				$f = new Follow(array(
 					'follower_id' => $_SESSION['user_id'],
 					'followee_id' => $followeeId
 					));
 				$f->save();
+				$json = array('success' => 'success');
+				echo json_encode($json);
+			}
 		}
 
 }
