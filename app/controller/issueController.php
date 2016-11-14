@@ -118,31 +118,24 @@ class IssueController {
 
 	public function reportProcess() {
 
-		$conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
-			or die ('Error: Could not connect to MySql database');
-		mysql_select_db(DB_DATABASE);
-
 		$address = $_POST['address'];
 		$description = $_POST['description'];
 		$summary = $_POST['summary'];
 		$img = $_POST['img'];
 		$added_by = $_POST['added_by'];
 
-		// log the event
-		$e = new Event(array(
-				'event_type_id' => EventType::getIdByName('report_issue'),
-				'user_1_id' => $_SESSION['user_id'],
+		$issue = new Issue(array(
+			'id' => null,
+			'address ' => $address,
+			'description' => $description,
+			'summary' => $summary,
+			'date_added' => null,
+			'img' => $img,
+			'added_by' => $added_by,
+			'solved' => 0
 		));
-		$e->save();
 
-		$sql = "INSERT INTO issue (address, description, summary, img, added_by) VALUES ('".$address."', '".$description."', '".$summary."', '".$img."', '".$added_by."')";
-		if(mysql_query($sql)) {
-			include_once SYSTEM_PATH.'/view/reportsuccess.tpl';
-		}
-		else {
-			echo "Something wrong!<br>";
-
-		}
+		$issue->save();
 	}
 
 	public function deleteIssue($id) {
