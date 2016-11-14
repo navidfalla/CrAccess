@@ -15,7 +15,7 @@ class Issue extends DbObject {
     public function __construct($args = array()) {
         $defaultArgs = array(
             'id' => null,
-            'address ' => '',
+            'address' => '',
             'description' => null,
             'summary' => '',
             'date_added' => null,

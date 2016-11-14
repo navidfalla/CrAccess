@@ -54,6 +54,12 @@ textarea {
   background-color: orange;
 }
 
+#primary-nav li a {
+  padding: 0.5px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 #logout{
     display: inline;
 }
