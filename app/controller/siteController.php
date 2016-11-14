@@ -23,6 +23,14 @@ class SiteController {
 				$this->logout();
 				break;
 
+			case 'signup':
+				$this->signup();
+				break;
+
+			case 'signupProcess':
+				 $this->signupProcess();
+					break;
+
 				case 'myaccount':
 					$this->myaccount();
 					break;
@@ -76,6 +84,36 @@ class SiteController {
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/myaccount.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';
+
+	}
+
+	public function signup() {
+		$pageName = 'signup';
+			include_once SYSTEM_PATH.'/view/header.tpl';
+			include_once SYSTEM_PATH.'/view/signup.tpl';
+			include_once SYSTEM_PATH.'/view/footer.tpl';
+	}
+
+	public function signupProcess() {
+
+		$first_name = $_POST['first_name'];
+		$last_name = $_POST['last_name'];
+		$email = $_POST['email'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+
+
+		$nu = new User (array (
+		'first_name' => $first_name,
+		'last_name' => $last_name,
+		'email' => $email,
+		'username' => $username,
+		'password' => $password
+
+		));
+		$nu->save();
+
+		include_once SYSTEM_PATH.'/view/signupsuccess.tpl';
 
 	}
 

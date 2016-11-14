@@ -5,7 +5,7 @@ class User extends DbObject {
 
     protected $id;
     protected $username;
-    protected $pw;
+    protected $password;
     protected $first_name;
     protected $last_name;
     protected $email;
@@ -14,7 +14,7 @@ class User extends DbObject {
         $defaultArgs = array(
             'id' => null,
             'username' => '',
-            'pw' => '',
+            'password' => '',
             'email' => null,
             'first_name' => null,
             'last_name' => null
@@ -24,7 +24,7 @@ class User extends DbObject {
 
         $this->id = $args['id'];
         $this->username = $args['username'];
-        $this->pw = $args['pw'];
+        $this->password = $args['password'];
         $this->email = $args['email'];
         $this->first_name = $args['first_name'];
         $this->last_name = $args['last_name'];
@@ -34,7 +34,7 @@ class User extends DbObject {
         $db = Db::instance();
         $db_properties = array(
             'username' => $this->username,
-            'pw' => $this->pw,
+            'password' => $this->password,
             'email' => $this->email,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name

@@ -73,16 +73,10 @@ class IssueController {
   public function issues() {
 		$pageName = 'Issues';
 
-		// $conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
-		// 	or die ('Error: Could not connect to MySql database');
-		// mysql_select_db(DB_DATABASE);
-		//
-		// $q = "SELECT issue.id, address, description, summary, date_added, img, username, solved FROM issue INNER JOIN user on added_by = user.id ORDER BY date_added; ";
 		$result = array();
 
 		$issues = Issue::getAllIssues();
 		foreach ($issues as $id) {
-			# code...
 			$i = Issue::loadById($id);
 			$issue = array();
 			$issue['id'] = $id;
@@ -96,6 +90,7 @@ class IssueController {
 			$issue['username'] = $user->get('username');
 			array_push($result, $issue);
 		};
+
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/issues.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';
@@ -118,24 +113,23 @@ class IssueController {
 
 	public function reportProcess() {
 
-		$conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
-			or die ('Error: Could not connect to MySql database');
-		mysql_select_db(DB_DATABASE);
-
 		$address = $_POST['address'];
 		$description = $_POST['description'];
 		$summary = $_POST['summary'];
 		$img = $_POST['img'];
 		$added_by = $_POST['added_by'];
 
-		$sql = "INSERT INTO issue (address, description, summary, img, added_by) VALUES ('".$address."', '".$description."', '".$summary."', '".$img."', '".$added_by."')";
-		if(mysql_query($sql)) {
-			include_once SYSTEM_PATH.'/view/reportsuccess.tpl';
-		}
-		else {
-			echo "Something wrong!<br>";
+		$ni = new Issue (array (
+		'address' => $address,
+		'description' => $description,
+		'summary' => $summary,
+		'img' => $img,
+		'added_by' => $added_by
 
-		}
+		));
+		$ni->save();
+
+		include_once SYSTEM_PATH.'/view/reportsuccess.tpl';
 	}
 
 	public function deleteIssue($id) {
