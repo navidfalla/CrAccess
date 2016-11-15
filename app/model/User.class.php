@@ -124,4 +124,14 @@ class User extends DbObject {
 
     }
 
+    public static function changeUserRole($user_id=null,$privilege=null){
+        $query = sprintf("UPDATE user SET privilege = '%s' WHERE id = %d ",
+            $privilege,
+            $user_id
+            );
+        $db = Db::instance();
+        $db->execute($query);
+        return $query;
+    }
+
 }

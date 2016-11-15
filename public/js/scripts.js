@@ -1,7 +1,7 @@
 //var not_accessible_images = ["not_accessible.jpg", "not_accessible2.jpg", "not_accessible3.jpg", "not_accessible4.jpg"]
 var current_image = 0;
 
-$(function() {
+$(document).ready(function() {
 	$('#rotate_right').on('click', function (e) {
 			$('#not_accessible_image').attr('src', '../../public/img/'+not_accessible_images[(++current_image)%4])
 	});
@@ -31,6 +31,14 @@ $(function() {
 			$(this).html("Edit Profile");
 		}
 	});
+
+	$('input[type="checkbox"]').on('change', function() {
+	   $('input[type="checkbox"]').not(this).prop('checked', false);
+	   console.log($(this).parent().parent().attr('id'));
+	   changeUserRole($(this).parent().parent().attr('id'));
+	});
+
+	
 
 	// $.each($('.delete-form'), function (idx) {
 	// 	$(this).submit(function (e) {return confirm('Delete?');});
@@ -167,11 +175,23 @@ $(function() {
 		});
 	}
 
+	function changeUserRole(id){
+		$.ajax({
+			type: "POST",
+			url: baseURL+'/view/profile/update/',
+			data: {
+				'user_id': id,
+				'privilege': $("input[name=privilege]:checked").val()
+			},
+			dataType: "json"
+		});
+	}
+
 	$('.delete-issue').on('click', deleteIssue);
 
 	$('.report-solved').on('click',reportSolved);
 
 	$('.edit-issue').on('click',editIssue);
 
-	$('.follow-user').on('click', followUser)
+	$('.follow-user').on('click', followUser);
 });

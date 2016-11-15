@@ -276,7 +276,7 @@ div#activity-feed{
   background-color: orange;
 }
 
-.linkbutton{
+/*.linkbutton{
     display: inline;
     float: left;
     text-align: center;
@@ -290,7 +290,7 @@ div#activity-feed{
     border-radius: 5px;
     box-shadow: 0.2px 0.2px grey;
     width: auto;
-}
+}*/
 
 span.note{
     padding-left: 5px;

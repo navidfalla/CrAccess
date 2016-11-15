@@ -49,7 +49,7 @@
 				echo '<div id='.$user[0].'><a href='.BASE_URL.'/view/profile/'.$user[0].'>'.$user[1].'</a><br><button class="btn btn-info follow-user">Following</button></div>';
 				}
 				else{
-					echo '<div id='.$user[0].'><label>'.$user[1].'</label><button class="btn btn-info follow-user">Follow</button></div>';
+					echo '<div id='.$user[0].'><a href='.BASE_URL.'/view/profile/'.$user[0].'>'.$user[1].'</a><br><button class="btn btn-info follow-user">Follow</button></div>';
 				}
 			}
 			?>

@@ -168,24 +168,21 @@ class IssueController {
 
 	public function reportSolvedProcess($id,$solved) {
 	  if ($this->isLoggedIn()) {
-		  $conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
-			  or die ('Error: Could not connect to MySql database');
-		  mysql_select_db(DB_DATABASE);
-
-		//   UPDATE issue SET solved=solved+1 WHERE id=$id;
+	  	$i = Issue::loadById($id);
 		if ($solved == 'T'){
-			$sql =	"UPDATE issue SET solved=solved+1 WHERE id='".$id."'";
+			$numSolved = $i->get('solved') + 1;
+	  		$i->set('solved',$numSolved);
 		}else{
-			$sql =	"UPDATE issue SET solved=solved-1 WHERE id='".$id."' and solved >= 0";
+			$numSolved = $i->get('solved') - 1;
+	  		if ($numSolved >= 0){
+	  			$i->set('solved',$numSolved);
+	  		}else{
+	  			$numSolved = 0;
+	  			$i->set('solved',$numSolved);
+	  		}
 		}
-		  if (mysql_query($sql)) {
-			  $q = "SELECT solved FROM issue WHERE id='".$id."'";
-	  		  $result = mysql_query($q);
-			  $row = mysql_fetch_assoc($result);
-			  $json = array( 'status' => 'success', 'solved' =>  $row['solved']);
-		  }else{
-			  $json = array( 'status' => 'fail' );
-		  }
+		$i->save();
+		$json = array( 'status' => 'success', 'solved' =>  $numSolved);
 	  }else {
 		  $json = array( 'status' => 'unauthorized' );
 	  }
