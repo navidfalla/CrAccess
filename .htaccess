@@ -45,5 +45,6 @@ RewriteRule ^issues/reportUnSolved/(\d+)/?$ app/controller/issueController.php?a
 
 RewriteRule ^issues/view/(\d+)/map/?$ app/controller/issueController.php?action=showMap&id=$1 [QSA,L]
 
-# Follow
+# Follow/UnFollow
 RewriteRule ^user/follow/?$ app/controller/siteController.php?action=follow [QSA,L]
+RewriteRule ^user/unfollow/?$ app/controller/siteController.php?action=unfollow [QSA,L]
