@@ -23,6 +23,10 @@ class SiteController {
 				$this->whoarewe();
 				break;
 
+			case 'howto':
+				$this->howto();
+				break;
+
 			case 'login':
 				$this->login();
 				break;
@@ -125,6 +129,12 @@ class SiteController {
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/whoarewe.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';
+  }
+
+	public function howto() {
+		$pageName = 'howto';
+
+		include_once SYSTEM_PATH.'/view/404.tpl';
   }
 
 	public function login() {
