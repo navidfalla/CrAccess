@@ -85,6 +85,23 @@ class Event extends DbObject {
       }
     }
 
+
+    public static function getEventsByType($user_id, $event_type_id){
+      $db = Db::instance();
+      $query = sprintf("SELECT * FROM %s WHERE user_1_id=%s AND event_type_id=%s;",
+        self::DB_TABLE,
+        $user_id,
+        $event_type_id
+        );
+        $result = $db->lookup($query);
+
+        $objects = array();
+        while($row = mysql_fetch_assoc($result)) {
+            $objects[] = self::loadById($row['id']);
+        }
+        return ($objects);
+   }
+
     public static function getEventsByUserId($userID = null, $limit=null) {
       if($userID == null)
         return null;
@@ -100,13 +117,6 @@ class Event extends DbObject {
 
       $query .= " ORDER BY date_created DESC ";
 
-      // $query = sprintf("SELECT * FROM `%s`
-      //   WHERE user_1_id = %d OR user_2_id = %d
-      //   ORDER BY date_created DESC ",
-      //   self::DB_TABLE,
-      //   $userID,
-      //   $userID
-      //   );
       if($limit != null) {
         $query .= " LIMIT ".$limit;
       }
