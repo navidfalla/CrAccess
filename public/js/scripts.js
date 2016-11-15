@@ -32,6 +32,14 @@ $(document).ready(function() {
 		}
 	});
 
+	$('input[type="checkbox"]').on('change', function() {
+	   $('input[type="checkbox"]').not(this).prop('checked', false);
+	   console.log($(this).parent().parent().attr('id'));
+	   changeUserRole($(this).parent().parent().attr('id'));
+	});
+
+	
+
 	// $.each($('.delete-form'), function (idx) {
 	// 	$(this).submit(function (e) {return confirm('Delete?');});
 	// });
@@ -181,6 +189,18 @@ $(document).ready(function() {
 				'lastname': $("input[name=last_name]").val(),
 				'email': $("input[name=email]").val(),
 				'password': $("input[name=password]").val()
+			},
+			dataType: "json"
+		});
+	}
+
+	function changeUserRole(id){
+		$.ajax({
+			type: "POST",
+			url: baseURL+'/view/profile/update/',
+			data: {
+				'user_id': id,
+				'privilege': $("input[name=privilege]:checked").val()
 			},
 			dataType: "json"
 		});

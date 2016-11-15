@@ -14,6 +14,10 @@ class SiteController {
 			case 'index':
 				$this->index();
 				break;
+			
+			case 'whoarewe':
+				$this->whoarewe();
+				break;
 
 			case 'login':
 				$this->login();
@@ -55,6 +59,12 @@ class SiteController {
 				$info['email'] = $_POST['email'];
 				$info['password'] = $_POST['password'];
 				$this->processProfile($info);
+				break;
+
+			case 'changeRole':
+				$user_id = $_POST['user_id'];
+				$privilege = $_POST['privilege'];
+				$this->changeRole($user_id,$privilege);
 				break;
 
 			case 'checkUsername':
@@ -99,6 +109,14 @@ class SiteController {
 		include_once SYSTEM_PATH.'/view/footer.tpl';
   }
 
+  public function whoarewe() {
+		$pageName = 'whoarewe';
+		
+		include_once SYSTEM_PATH.'/view/header.tpl';
+		include_once SYSTEM_PATH.'/view/whoarewe.tpl';
+		include_once SYSTEM_PATH.'/view/footer.tpl';
+  }
+
 	public function login() {
 		$pageName = 'Sign In';
 		include_once SYSTEM_PATH.'/view/header.tpl';
@@ -140,6 +158,7 @@ class SiteController {
 
 		// print_r($u);
 		if ($u != null){
+			$user['user_id'] = $user_id;
 			$user['username'] = $u->get('username');
 			$user['privilege'] = $u->get('privilege');
 			$user['firstname'] = $u->get('first_name');
@@ -215,6 +234,17 @@ class SiteController {
 		$u = User::loadById($info['user_id']);
 		$u->update($info);
 		header('Location: '.BASE_URL."/myaccount");
+	}
+
+	public function changeRole($user_id,$privilege) {
+		$u = User::loadById($user_id);
+		$response = $u->changeUserRole($user_id,$privilege);
+		// $u->set('first_name',$info['first_name']);
+		// $u->set('last_name',$info['last_name']);
+		// $u->set('password',$info['password']);
+		// $u->set('email',$info['email']);
+		echo json_encode($response);
+		// header('Location: '.BASE_URL."/view/profile/".$user_id);
 	}
 
 	public function logout() {

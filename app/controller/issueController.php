@@ -165,21 +165,26 @@ class IssueController {
 
 	public function reportSolvedProcess($id,$solved) {
 	  if ($this->isLoggedIn()) {
+<<<<<<< HEAD
 
 		//   UPDATE issue SET solved=solved+1 WHERE id=$id;
+=======
+	  	$i = Issue::loadById($id);
+>>>>>>> master
 		if ($solved == 'T'){
-			$sql =	"UPDATE issue SET solved=solved+1 WHERE id='".$id."'";
+			$numSolved = $i->get('solved') + 1;
+	  		$i->set('solved',$numSolved);
 		}else{
-			$sql =	"UPDATE issue SET solved=solved-1 WHERE id='".$id."' and solved >= 0";
+			$numSolved = $i->get('solved') - 1;
+	  		if ($numSolved >= 0){
+	  			$i->set('solved',$numSolved);
+	  		}else{
+	  			$numSolved = 0;
+	  			$i->set('solved',$numSolved);
+	  		}
 		}
-		  if (mysql_query($sql)) {
-			  $q = "SELECT solved FROM issue WHERE id='".$id."'";
-	  		  $result = mysql_query($q);
-			  $row = mysql_fetch_assoc($result);
-			  $json = array( 'status' => 'success', 'solved' =>  $row['solved']);
-		  }else{
-			  $json = array( 'status' => 'fail' );
-		  }
+		$i->save();
+		$json = array( 'status' => 'success', 'solved' =>  $numSolved);
 	  }else {
 		  $json = array( 'status' => 'unauthorized' );
 	  }

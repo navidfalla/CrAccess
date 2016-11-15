@@ -21,13 +21,14 @@
 			<b>Summary</b>: <span><?= $issue['summary'] ?></span> <br />
 			<b>Reporter</b>: <span><?= $issue['username'] ?></span> <br />
 			<b>Date Added</b>: <span><?= $issue['date_added'] ?></span> <br />
-			<a class="linkbutton" href="<?= BASE_URL ?>/issues/view/<?= $issue['id'] ?>">View</a>
-			<button class="report-solved" id="<?= 'solve-'.$issue['id'] ?>">Report Solved</button><span class="note"><em class="num-reports"><?= $issue['solved'] ?></em> reports solved</span><br/>
-			<!-- <form action="<?= BASE_URL ?>/issues/edit/<?= $issue['id'] ?>" method="POST"> -->
+			<a class="btn btn-default linkbutton" href="<?= BASE_URL ?>/issues/view/<?= $issue['id'] ?>">View</a>
+			<button class="btn btn-default report-solved" id="<?= 'solve-'.$issue['id'] ?>">Report Solved</button><span class="note"><em class="num-reports"><?= $issue['solved'] ?></em> reports solved</span><br/>
 	<?php
 			if(isset($_SESSION['user'])){
-				if ($_SESSION['user'] == $issue['username'] || $_SESSION['privilege'] == 1){
-					echo '<button class="edit-issue" id = edit-'.$issue['id'].'>Edit</button><button class = "delete-issue" id = delete-'.$issue['id'].'>Delete</button></td></tr>';
+				if ($_SESSION['privilege'] != 1){
+					echo '<button class="btn btn-default edit-issue" id = edit-'.$issue['id'].'>Edit</button><button class = "btn btn-default delete-issue" id = delete-'.$issue['id'].'>Delete</button></td></tr>';
+				}else if ($_SESSION['user'] == $issue['username']){
+					echo '<button class="btn btn-default edit-issue" id = edit-'.$issue['id'].'>Edit</button></td></tr>';
 				}else{
 					echo '</td></tr>';
 				}
