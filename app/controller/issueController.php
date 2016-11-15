@@ -148,13 +148,10 @@ class IssueController {
 
 	public function deleteIssue($id) {
 		if ($this->isLoggedIn()) {
-			$conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
-				or die ('Error: Could not connect to MySql database');
-			mysql_select_db(DB_DATABASE);
-
-			$sql =	"DELETE FROM issue WHERE id='".$id."'";
-			$sql_event = "DELETE FROM event WHERE issue_id='".$id."'";
-			if (mysql_query($sql) && mysql_query($sql_event)) {
+			if (Issue::deleteById($id)) {
+				// delete the corresponding events
+				Event::deleteByIssueId($id);
+				
 				$json = array( 'status' => 'success' );
 			}else{
 				$json = array( 'status' => 'fail' );
@@ -168,9 +165,6 @@ class IssueController {
 
 	public function reportSolvedProcess($id,$solved) {
 	  if ($this->isLoggedIn()) {
-		  $conn = mysql_connect(DB_HOST, DB_USER, DB_PASS)
-			  or die ('Error: Could not connect to MySql database');
-		  mysql_select_db(DB_DATABASE);
 
 		//   UPDATE issue SET solved=solved+1 WHERE id=$id;
 		if ($solved == 'T'){

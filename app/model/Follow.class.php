@@ -63,6 +63,20 @@ class Follow extends DbObject {
       return $objects;
     }
 
+    public static function deleteFollow($followeeId, $followerId){
+      if($followeeId == null || $followerId == null) {
+        return null;
+      }
+      $query = sprintf("DELETE FROM `%s` WHERE follower_id = %d AND followee_id = %d ",
+        self::DB_TABLE,
+        $followerId,
+        $followeeId
+        );
+        $db = Db::instance();
+        return($db->lookup($query));
+    }
+
+
     // load a Follow object by usernames
     public static function loadByUsernames($followerUsername=null, $followeeUsername=null) {
       if($followerUsername == null || $followeeUsername == null) {

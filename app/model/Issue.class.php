@@ -75,6 +75,15 @@ class Issue extends DbObject {
 
     }
 
+    public static function deleteById($issue_id){
+      $query = sprintf("DELETE * FROM %s WHERE id = %s",
+          self::DB_TABLE,
+          $issue_id
+        );
+        $db = Db::instance();
+        return($db->lookup($query));
+    }
+
     public static function loadLastAdded(){
       $query = sprintf("SELECT * FROM %s ORDER BY `date_added` DESC LIMIT 1",
           self::DB_TABLE

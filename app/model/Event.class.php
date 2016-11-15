@@ -46,6 +46,15 @@ class Event extends DbObject {
         $db->store($this, __CLASS__, self::DB_TABLE, $db_properties);
     }
 
+    public function deleteByIssueId($issue_id) {
+      $db = Db::instance();
+      $query = sprintf("DELETE FROM %s WHERE issue_id=%s;",
+        self::DB_TABLE,
+        $issue_id
+        );
+        $result = $db->lookup($query);
+    }
+
     // load object by ID
     public static function loadById($id) {
         $db = Db::instance();
