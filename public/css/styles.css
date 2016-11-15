@@ -61,10 +61,17 @@ textarea {
   background-color: orange;
 }
 
+.btn{
+  padding-top: 0.5px;
+  padding-bottom: 0.5px;
+  font-size: 12px;
+}
+
 #primary-nav li a {
   padding: 0.5px;
   padding-left: 20px;
   padding-right: 20px;
+  font-size: 16px;
 }
 
 #logout{
