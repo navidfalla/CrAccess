@@ -67,11 +67,14 @@ class SiteController {
 				$this->followUser($followeeId);
 				break;
 
-			//
-      // default:
-      //   header('Location: '.BASE_URL);
-      //   exit();
+			case 'unfollow':
+				$followeeId = $_POST['userId'];
+				$this->unfollowUser($followeeId);
+				break;
 
+      default:
+        header('Location: '.BASE_URL);
+        exit();
 		}
 	}
 
@@ -84,7 +87,9 @@ class SiteController {
 				$followeeIds[] = $followee->get('id');
 			}
 			$users = User::getAllUsersExceptThis($_SESSION['user_id']);
-			$events = Event::getEventsByUserId($_SESSION['user_id']);
+			$num_events = 10;
+			// get the last 15 events
+			$events = Event::getEventsByUserId($_SESSION['user_id'], $num_events);
 		}else{
 			$users = null;
 		}
@@ -104,6 +109,10 @@ class SiteController {
 	public function myaccount() {
 		$pageName = 'My Account';
 		$user = array();
+		// fetch only reported issues
+		$event_type_id = EventType::getIdByName('report_issue');
+		$events = Event::getEventsByType($_SESSION['user_id'], $event_type_id);
+
 		if (isset($_SESSION['user'])){
 			$u = User::loadById($_SESSION['user_id']);
 			$user['username'] = $u->get('username');
@@ -112,6 +121,7 @@ class SiteController {
 			$user['lastname'] = $u->get('last_name');
 			$user['password'] = $u->get('password');
 			$user['email'] = $u->get('email');
+			include_once SYSTEM_PATH.'/view/helpers.php';
 			include_once SYSTEM_PATH.'/view/header.tpl';
 			include_once SYSTEM_PATH.'/view/myaccount.tpl';
 			include_once SYSTEM_PATH.'/view/footer.tpl';
@@ -121,16 +131,13 @@ class SiteController {
 			exit();
 		}
 
-
-		//  $sql = "SELECT img FROM issue INNER JOIN user on added_by = user.id WHERE user.id = 1 AND issue.id = 2 ORDER BY date_added; ";
-		//  $imgs = explode(", ", mysql_fetch_assoc(mysql_query($sql)));
-
 	}
 
 	public function profile($user_id){
 		$pageName = 'profile_view';
 		$user = array();
 		$u = User::loadById($user_id);
+
 		// print_r($u);
 		if ($u != null){
 			$user['username'] = $u->get('username');
@@ -205,14 +212,8 @@ class SiteController {
 	public function processProfile($info) {
 
 		$_SESSION['username']=$info['username'];
-		//
 		$u = User::loadById($info['user_id']);
 		$u->update($info);
-		// $u->set('first_name',$info['first_name']);
-		// $u->set('last_name',$info['last_name']);
-		// $u->set('password',$info['password']);
-		// $u->set('email',$info['email']);
-
 		header('Location: '.BASE_URL."/myaccount");
 	}
 
@@ -220,6 +221,17 @@ class SiteController {
 		unset($_SESSION['user']);
 		unset($_SESSION['user_id']);
 		header('Location: '.BASE_URL.'/login/');
+	}
+	public function unfollowUser($followeeId) {
+		$followerId = $_SESSION['user_id'];
+		if(Follow::deleteFollow($followeeId, $_SESSION['user_id'])){
+			$json = array('success' => 'success');
+			echo json_encode($json);
+		}
+		else{
+			$json = array('error' => 'Could not unfollow this user!');
+			echo json_encode($json);
+		}
 	}
 
 	public function followUser($followeeId) {
@@ -251,6 +263,8 @@ class SiteController {
 				$json = array('success' => 'success');
 				echo json_encode($json);
 			}
+
+			header('Content-Type: application/json');
 		}
 
 }

@@ -41,15 +41,15 @@
 		</div>
 	</div>
 	<div id="follow-view">
-		<h3>Who to follow</h3>
+		<h3>More people to follow?</h3>
 		<div id="follow-users">
 			<?php
 			foreach ($users as $user) {
 				if(in_array($user[0], $followeeIds)){
-				echo '<div id='.$user[0].'><a href='.BASE_URL.'/view/profile/'.$user[0].'>'.$user[1].'</a><br><button class="btn btn-info follow-user">Following</button></div>';
+				echo '<div id='.$user[0].'><a href='.BASE_URL.'/view/profile/'.$user[0].'>'.$user[1].'</a><br><button class="btn btn-primary follow-behavior">Unfollow</button></div>';
 				}
 				else{
-					echo '<div id='.$user[0].'><label>'.$user[1].'</label><button class="btn btn-info follow-user">Follow</button></div>';
+					echo '<div id='.$user[0].'><a href='.BASE_URL.'/view/profile/'.$user[0].'>'.$user[1].'</a><br><button class="btn btn-primary follow-behavior">Follow</button></div>';
 				}
 			}
 			?>

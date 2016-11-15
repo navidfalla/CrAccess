@@ -1,7 +1,7 @@
 //var not_accessible_images = ["not_accessible.jpg", "not_accessible2.jpg", "not_accessible3.jpg", "not_accessible4.jpg"]
 var current_image = 0;
 
-$(function() {
+$(document).ready(function() {
 	$('#rotate_right').on('click', function (e) {
 			$('#not_accessible_image').attr('src', '../../public/img/'+not_accessible_images[(++current_image)%4])
 	});
@@ -131,25 +131,44 @@ $(function() {
 		);
 	}
 
-
-	function followUser(e){
-			var button = $(this);
-			var followeeId = $(button).parent().attr('id');
+		$('.follow-behavior').on('click', function (){
+		var button = $(this);
+		var followeeId = $(button).parent().attr('id');
+		// if the user clicked follow
+		if($(button).html() == 'Follow'){
+			followURL = baseURL+'/user/follow',
 			$.post(
-			  baseURL+'/user/follow',
+				followURL,
 				{'userId': followeeId},
 					function(data) {
-	        if(data.success == 'success') {
-	          // Follow successful
-	          // Already followed, so remove the button
-	          $(button).html('Following');
-	        } else if (data.error != '') {
-	          alert(data.error); // show error as popup
-	        }
-	      },
-	      'json'
+					if(data.success == 'success') {
+						console.log('follow success')
+							$(button).html('Unfollow');
+					} else if (data.error != '') {
+						alert(data.error); // show error as popup
+					}
+				},
+				'json'
 			);
-	}
+		}
+		else if($(button).html() == 'Unfollow'){
+			followURL = baseURL+'/user/unfollow',
+				console.log('in unfollow');
+			$.post(
+				followURL,
+				{'userId': followeeId},
+					function(data) {
+					if(data.success == 'success') {
+						console.log('unfollow success')
+							$(button).html('Follow');
+					} else if (data.error != '') {
+						alert(data.error); // show error as popup
+					}
+				},
+				'json'
+			);
+		}
+	});
 
 	function updateProfile(id){
 		$.ajax({
@@ -173,5 +192,4 @@ $(function() {
 
 	$('.edit-issue').on('click',editIssue);
 
-	$('.follow-user').on('click', followUser)
 });
