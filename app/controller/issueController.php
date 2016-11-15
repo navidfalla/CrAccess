@@ -151,7 +151,7 @@ class IssueController {
 			if (Issue::deleteById($id)) {
 				// delete the corresponding events
 				Event::deleteByIssueId($id);
-				
+
 				$json = array( 'status' => 'success' );
 			}else{
 				$json = array( 'status' => 'fail' );
@@ -165,12 +165,10 @@ class IssueController {
 
 	public function reportSolvedProcess($id,$solved) {
 	  if ($this->isLoggedIn()) {
-<<<<<<< HEAD
-
 		//   UPDATE issue SET solved=solved+1 WHERE id=$id;
-=======
+
 	  	$i = Issue::loadById($id);
->>>>>>> master
+
 		if ($solved == 'T'){
 			$numSolved = $i->get('solved') + 1;
 	  		$i->set('solved',$numSolved);
