@@ -14,7 +14,11 @@ class SiteController {
 			case 'index':
 				$this->index();
 				break;
-			
+
+			case 'homePageMap':
+				$this->homePageMap();
+				break;
+
 			case 'whoarewe':
 				$this->whoarewe();
 				break;
@@ -88,6 +92,12 @@ class SiteController {
 		}
 	}
 
+	public function homePageMap(){
+		// include_once SYSTEM_PATH.'/view/header.tpl';
+		include_once SYSTEM_PATH.'/view/404.tpl';
+	// 	include_once SYSTEM_PATH.'/view/footer.tpl';
+	}
+
   public function index() {
 		$pageName = 'Home';
 		if (isset($_SESSION['user'])){
@@ -111,7 +121,7 @@ class SiteController {
 
   public function whoarewe() {
 		$pageName = 'whoarewe';
-		
+
 		include_once SYSTEM_PATH.'/view/header.tpl';
 		include_once SYSTEM_PATH.'/view/whoarewe.tpl';
 		include_once SYSTEM_PATH.'/view/footer.tpl';

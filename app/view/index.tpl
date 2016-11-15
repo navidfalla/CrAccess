@@ -11,10 +11,10 @@
 		187 Issues reported so far
 		</div>
 		<div id="map-view">
-			<a href="map.html">
-			<img class="main-image" src="public/img/map.png" alt="Accessibility Issue Map" /></a>
+			<a href="<?= BASE_URL ?>/map">
+			<img class="main-image" src="<?= BASE_URL ?>/public/img/map.png" alt="Accessibility Issue Map" /></a>
 			<br>
-			<a href="map.html">
+			<a href="<?= BASE_URL ?>/map">
 			<b>Accessibility Issue Map</b>
 		</a>
 		</div>
