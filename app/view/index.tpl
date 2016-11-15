@@ -24,16 +24,16 @@
 		<div id="activity-view">
 			<?php if(isset($events)): ?>
 
-			<h2>Recent Activity</h2>
+			<h3>Recent Activity</h3>
 			  <?php if(count($events) == 0): ?>
-			<p>No recent activity.</p>
+			<div class="well"> <p>No recent activity.</p> </div>
 			  <?php else: ?>
 
-			<ul>
+			<div class="well activity-feed">
 			  <?php foreach($events as $event): ?>
-			    <li><?= formatEvent($event) ?></li>
+			    <p><?= formatEvent($event) ?></p>
 			  <?php endforeach; ?>
-			</ul>
+			</div>
 
 			  <?php endif; ?>
 

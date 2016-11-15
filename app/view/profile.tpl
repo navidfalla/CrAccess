@@ -36,7 +36,7 @@
 
 </div>
 <div id="activity-feed">
-	<h3>Activity Feed</h3>
+	<!-- <h3>Activity Feed</h3> -->
 	<div id="your_img">
 		<p> Recently Added By You </p>
 

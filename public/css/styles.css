@@ -145,6 +145,15 @@ div#activity-feed{
     float: right;
 }
 
+.username-labels{
+  display: inline;
+  background-color: lightgreen;
+}
+.activity-feed{
+  overflow-y: auto;
+  height: 170px;
+}
+
 .main-image {
     height: auto;
     width: auto;

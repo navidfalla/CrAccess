@@ -41,7 +41,24 @@
 	</form>
 </div>
 <div id="activity-feed">
-	<h3>Activity Feed</h3>
+	<div id="activity-view">
+		<?php if(isset($events)): ?>
+
+		<h3>Recent Activity</h3>
+			<?php if(count($events) == 0): ?>
+		<div class="well"> <p>No recent activity.</p> </div>
+			<?php else: ?>
+
+		<div class="well activity-feed">
+			<?php foreach($events as $event): ?>
+				<p><?= formatEvent($event) ?></p>
+			<?php endforeach; ?>
+		</div>
+
+			<?php endif; ?>
+
+		<?php endif; ?>
+	</div>
 	<div id="your_img">
 		<p> Recently Added By You </p>
 

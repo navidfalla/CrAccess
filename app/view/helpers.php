@@ -13,6 +13,7 @@ function formatEvent($event=null) {
   switch($eventTypeName) {
     case 'report_issue':
       $user1name = User::getUsernameById($event->get('user_1_id'));
+
       $issue = Issue::loadById($event->get('issue_id'));
       $summary = $issue->get('summary');
       $address = $issue->get('address');
@@ -23,8 +24,8 @@ function formatEvent($event=null) {
       if($user1name==$_SESSION['user']){
           $user1name = 'You';
       }
-      
-      $formattedEvent = sprintf('%s reported an issue: <a href="%s">%s</a> at <b>address:</b> %s on <b>date:</b> %s.',
+
+      $formattedEvent = sprintf("<label class='label label-success'>%s</label> reported an issue: <a href='%s'>%s</a> at <label class='label label-default'>address</label> <b>%s</b> on <label class='label label-default'>date:</label> %s.",
         $user1name,
         $issueURL,
         $summary,
@@ -44,7 +45,7 @@ function formatEvent($event=null) {
       }
       $date = date("m-j-y g:i a", strtotime($event->get('date_created')));
 
-      $formattedEvent = sprintf("%s followed %s on %s.",
+      $formattedEvent = sprintf("<label class='label label-success'>%s</label> followed <label class='label label-success'>%s</label> on %s.",
         $user1name,
         $user2name,
         $date
