@@ -8,6 +8,7 @@ RewriteEngine on
 RewriteRule ^$ app/controller/siteController.php?action=index [QSA,L]
 RewriteRule ^map/?$ app/controller/siteController.php?action=homePageMap [QSA,L]
 RewriteRule ^whoarewe/?$ app/controller/siteController.php?action=whoarewe [QSA,L]
+RewriteRule ^howto/?$ app/controller/siteController.php?action=howto [QSA,L]
 RewriteRule ^contact/?$ app/controller/siteController.php?action=contact [QSA,L]
 RewriteRule ^login/?$ app/controller/siteController.php?action=login [QSA,L]
 RewriteRule ^login/process?$ app/controller/siteController.php?action=processLogin [QSA,L]
