@@ -109,7 +109,7 @@ class Issue extends DbObject {
   }
 
     public static function getAllIssues($limit=null) {
-        $query = sprintf(" SELECT id FROM %s",
+        $query = sprintf(" SELECT id FROM %s ORDER BY `date_added` DESC",
             self::DB_TABLE
             );
         $db = Db::instance();

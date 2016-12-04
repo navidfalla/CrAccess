@@ -26,6 +26,7 @@ function isSelected($pn, $link) {
 	  var baseURL = '<?= BASE_URL ?>';
   </script>
   <script type="text/javascript" src="<?= BASE_URL ?>/public/js/scripts.js"></script>
+  <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/public/css/styles.css">
 
 </head>
 

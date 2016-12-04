@@ -4,7 +4,7 @@
 
 <?php foreach($results as $issue){ ?>
 
-<?php 
+<?php
 	$myimg = explode(",", $issue['img'])[0];
 	if ($myimg == ""){
 		$myimg = 'no-image-found.gif';
@@ -20,7 +20,7 @@
 			<b>Address</b>: <span><?= $issue['address'] ?></span> <br />
 			<b>Summary</b>: <span><?= $issue['summary'] ?></span> <br />
 			<b>Reporter</b>: <span><?= $issue['username'] ?></span> <br />
-			<b>Date Added</b>: <span><?= $issue['date_added'] ?></span> <br />
+			<b>Last Modified</b>: <span><?= $issue['date_added'] ?></span> <br />
 			<a class="btn btn-default linkbutton" href="<?= BASE_URL ?>/issues/view/<?= $issue['id'] ?>">View</a>
 			<button class="btn btn-default report-solved" id="<?= 'solve-'.$issue['id'] ?>">Report Solved</button><span class="note"><em class="num-reports"><?= $issue['solved'] ?></em> reports solved</span><br/>
 	<?php
