@@ -39,6 +39,7 @@ function isSelected($pn, $link) {
 		<ul id="primary-nav" class="btn-group">
 			<li><a class="btn btn-info" <?= isSelected($pageName, 'Home') ?> href="<?= BASE_URL ?>/">Home</a></li>
 			<li><a class="btn btn-info" <?= isSelected($pageName, 'Issues') ?> href="<?= BASE_URL ?>/issues">Issues</a></li>
+			<li><a class="btn btn-info" <?= isSelected($pageName, 'Visualisation') ?> href="<?= BASE_URL ?>/visualisation">Visualisation</a></li>
 			<li><a class="btn btn-info" <?= isSelected($pageName, 'Who Are We?') ?> href="<?= BASE_URL ?>/whoarewe">Who Are We?</a></li>
 			<li><a class="btn btn-info" <?= isSelected($pageName, 'How To') ?> href="<?= BASE_URL ?>/howto">How To</a></li>
 	<?php

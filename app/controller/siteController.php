@@ -90,6 +90,10 @@ class SiteController {
 				$this->unfollowUser($followeeId);
 				break;
 
+			case 'visualisation':
+				$this->visualisation();
+				break;
+
       default:
         header('Location: '.BASE_URL);
         exit();
@@ -316,5 +320,14 @@ class SiteController {
 
 			header('Content-Type: application/json');
 		}
+
+	public function visualisation() {
+		$pageName = 'Visualisation';
+
+		include_once SYSTEM_PATH.'/view/header.tpl';
+		include_once SYSTEM_PATH.'/view/vis.tpl';
+		include_once SYSTEM_PATH.'/view/footer.tpl';
+  }
+
 
 }

@@ -21,6 +21,8 @@ RewriteRule ^myaccount/update/?$ app/controller/siteController.php?action=proces
 RewriteRule ^signup/?$ app/controller/siteController.php?action=signup [QSA,L]
 RewriteRule ^signup/process/?$ app/controller/siteController.php?action=signupProcess [QSA,L]
 
+RewriteRule ^visualisation/?$ app/controller/siteController.php?action=visualisation [QSA,L]
+
 
 # Issue
 
@@ -47,6 +49,8 @@ RewriteRule ^issues/reportSolved/(\d+)/?$ app/controller/issueController.php?act
 RewriteRule ^issues/reportUnSolved/(\d+)/?$ app/controller/issueController.php?action=reportSolvedProcess&id=$1&solved=F [QSA,L]
 
 RewriteRule ^issues/view/(\d+)/map/?$ app/controller/issueController.php?action=showMap&id=$1 [QSA,L]
+
+RewriteRule ^issues/vizData/?$ app/controller/issueController.php?action=getVizData [QSA,L]
 
 # Follow/UnFollow
 RewriteRule ^user/follow/?$ app/controller/siteController.php?action=follow [QSA,L]

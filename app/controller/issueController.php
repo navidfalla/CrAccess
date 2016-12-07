@@ -64,6 +64,10 @@ class IssueController {
 				$this->saveChanges($issueID);
 				break;
 
+			case 'getVizData':
+				$this->getVizData();
+				break;
+
       default:
         header('Location: '.BASE_URL);
         exit();
@@ -302,6 +306,57 @@ class IssueController {
 		$issue['status'] = 'success';
 		header('Content-Type: application/json');
 		echo json_encode($issue);
+	}
+
+	public function getVizData() {
+		// get all issues
+		$issues = Issue::getAllIssues();
+
+		$jsonIssues = array(); // array to hold json issues
+
+		foreach($issues as $id) {
+			// get details about each issue
+			$i = Issue::loadById($id);
+			$user = User::loadById($i->get('added_by'));
+
+			$jsonIssue = array(
+				'id' => $id,
+				'name' => $i->get('address'),
+				// 'description' => $i->get('description'),
+				// 'summary' => $i->get('summary'),
+				// 'date_added' => $i->get('date_added'),
+				'group' => $i->get('solved'),
+				// 'group' => $i->get('added_by'),
+				// 'img' => $i->get('img'),
+				// 'username' => $user->get('username')
+			);
+
+			$jsonIssues[] = $jsonIssue;
+		}
+
+
+		foreach ($jsonIssues as $key1 => $value1) {
+		    foreach ($jsonIssues as $key2 => $value2) {
+			    // if ($key1 < $key2 && $value1['username'] == $value2['username']){
+		    	if ($value1['group'] == $value2['group'] && $key1 < $key2){
+			    	$jsonLink = array(
+			    		'source' => $key1,
+			    		'target' => $key2,
+			    		'value' => 1
+			    	);
+			    	$jsonLinks[] = $jsonLink;
+			    }
+			}
+		}
+
+		// finally, the json root object
+		$json = array(
+			'nodes' => $jsonIssues,
+			'links' => $jsonLinks
+		);
+
+		header('Content-Type: application/json');
+		echo json_encode($json);
 	}
 
 }
