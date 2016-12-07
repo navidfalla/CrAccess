@@ -210,8 +210,7 @@ function init() {
     .style("fill", function(d) { return fill(d.group); })
     .on("click", function(d) {
       // console.log("hull click", d, arguments, this, expand[d.group]);
-      expand[d.group] = false; i
-      nit();
+      expand[d.group] = false; init();
     });
     
     link = linkg.selectAll("line.link").data(net.links, linkid);
@@ -229,18 +228,21 @@ function init() {
     node.exit().remove();
     node.enter().append("circle")
     // if (d.size) -- d.size > 0 when d is a group node.
-    .attr("class", function(d) { return "node" + (d.size?"":" leaf"); })
+    .attr("class", function(d) { return "node" + (d.size?" cluster":" leaf"); })
     // .attr("id", function(d) { return d.source.id+","+d.target.id; })
     .attr("r", function(d) { return d.size ? d.size + dr : dr+1; })
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; })
-    .style("fill", function(d) { return fill(d.group); })
-    .on("click", function(d) {
-      // console.log(d);
-      // console.log("node click", d, arguments, this, expand[d.group]);
-      expand[d.group] = !expand[d.group];
-      init();
-    });
+    .style("fill", function(d) { return fill(d.group); });
+    d3.selectAll(".cluster")
+      .on("click", function(d) {
+        expand[d.group] = !expand[d.group];
+        init();
+      });
+    d3.selectAll(".leaf")
+      .on("click", function(d) {
+        alert("leaf node");
+      });
     
     node.call(force.drag);
     
