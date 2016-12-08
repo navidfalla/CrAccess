@@ -8,7 +8,6 @@ Report issue
 </div>
 <br>
 <br>
-
 <?php foreach($results as $issue){ ?>
 
 <?php
@@ -17,7 +16,6 @@ Report issue
 		$myimg = 'no-image-found.gif';
 	}
 ?>
-
 <table>
 	<tr id="<?= 'issue-'.$issue['id'] ?>">
 	<td><img class="issue-image" src="<?= BASE_URL ?>/public/img/<?= $myimg ?>" alt="<?= $issue['summary'] ?>" /></td>
