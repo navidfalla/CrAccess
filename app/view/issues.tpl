@@ -1,4 +1,11 @@
 <div id="content">
+
+<div class="report-btn">
+Report issue
+	<a class="btn btn-info linkbutton" href="<?= BASE_URL ?>/report">
+		<span class="glyphicon glyphicon-plus"></span></a>
+	</button>
+</div>
 <br>
 <br>
 
