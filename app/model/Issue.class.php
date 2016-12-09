@@ -11,6 +11,9 @@ class Issue extends DbObject {
     protected $added_by;
     protected $img;
     protected $solved;
+    protected $lat;
+    protected $lng;
+    protected $group_id;
 
     public function __construct($args = array()) {
         $defaultArgs = array(
@@ -22,6 +25,9 @@ class Issue extends DbObject {
             'img' => null,
             'added_by' => 0,
             'solved' => 0,
+            'lat' => 0,
+            'lng' => 0,
+            'group_id' => 0
             );
 
         $args += $defaultArgs;
@@ -34,6 +40,9 @@ class Issue extends DbObject {
         $this->img = $args['img'];
         $this->added_by = $args['added_by'];
         $this->solved = $args['solved'];
+        $this->lat = $args['lat'];
+        $this->lng = $args['lng'];
+        $this->group_id = $args['group_id'];
     }
 
     public function save()
@@ -45,7 +54,10 @@ class Issue extends DbObject {
             'summary' => $this->summary,
             'img' => $this->img,
             'added_by' => $this->added_by,
-            'solved' => $this->solved
+            'solved' => $this->solved,
+            'lat' => $this->lat,
+            'lng' => $this->lng,
+            'group_id' => $this->group_id
             );
         $db->store($this, __CLASS__, self::DB_TABLE, $db_properties);
     }
