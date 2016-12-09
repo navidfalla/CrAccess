@@ -1,6 +1,8 @@
 <?php
 
+require_once 'HTTP/Request2.php';
 include_once '../global.php';
+$subscriptionKey = 'AIzaSyAla7FkKwsq9PehjiZ9gBEGq5xo-xEU_9E';
 
 $action = $_GET['action'];
 
@@ -120,22 +122,29 @@ class IssueController {
 	}
 
 	public function reportProcess() {
-
 		$address = $_POST['address'];
 		$description = $_POST['description'];
 		$summary = $_POST['summary'];
-		$img = $_POST['img'];
 		$added_by = $_POST['added_by'];
+		$img = $_FILES['img'];
 
+		$geocoordinates = $this->fetch_coordinates($address);
+		$group_id = $this->fetch_groupID($geocoordinates);
+		// $uploaded = $this->uploadImage($_FILES, $_POST);
+		// print_r($uploaded);
+		// die();
 		$issue = new Issue(array(
 			'id' => null,
 			'address' => $address,
 			'description' => $description,
 			'summary' => $summary,
 			'date_added' => null,
-			'img' => $img,
+			'img' => null,
 			'added_by' => $added_by,
-			'solved' => 0
+			'solved' => 0,
+			'lat' => $geocoordinates['lat'],
+			'lng' => $geocoordinates['lng'],
+			'group_id' => $group_id
 		));
 
 		$issue->save();
@@ -391,6 +400,78 @@ class IssueController {
 
 		header('Content-Type: application/json');
 		echo json_encode($json);
+		}
+
+	public function haversine($coordinatesFrom, $coordinatesTo, $earthRadius = 6371){
+	  // convert from degrees to radians
+	  $latFrom = deg2rad($coordinatesFrom['lat']);
+	  $lonFrom = deg2rad($coordinatesFrom['lng']);
+	  $latTo = deg2rad($coordinatesTo['lat']);
+	  $lonTo = deg2rad($coordinatesTo['lng']);
+
+	  $latDelta = $latTo - $latFrom;
+	  $lonDelta = $lonTo - $lonFrom;
+
+	  $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
+	    cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+	  return $angle * $earthRadius;
+	}
+
+	public function fetch_groupID($coordinates){
+		if ($coordinates['lat']==0 && $coordinates['lng']==0){
+			return 0;
+		}
+		$min_dist = 63710 ; //in meters
+		$group_id = 0;
+		$seeds = Seed::loadAllSeeds();
+		foreach ($seeds as $id) {
+			if($id==0){
+				continue;
+			}
+			else{
+			$s = Seed::loadById($id);
+			$seed_coordinates = array('lat' => $s->get('lat'), 'lng' => $s->get('lng') );
+			$dist = $this->haversine($coordinates, $seed_coordinates);
+			print_r($dist.' ');
+			if($dist < $min_dist){
+				$min_dist = $dist;
+				$group_id = $s->get('id');
+				}
+	  	}
+		}
+		return $group_id;
+	}
+
+	public function fetch_coordinates($address, $subscriptionKey='AIzaSyAla7FkKwsq9PehjiZ9gBEGq5xo-xEU_9E'){
+	  $request = new Http_Request2('https://maps.googleapis.com/maps/api/geocode/json');
+	  // $request->setMethod(HTTP_Request2::METHOD_POST);
+		$url = $request->getUrl();
+		$query_params = array(
+			 // Specify values for optional parameters, as needed
+			 'address' => $address,
+			 'key' => $subscriptionKey
+			);
+
+		$url->setQueryVariables($query_params);
+
+	  try {
+	    $response = $request->send();
+	    $json = $response->getBody();
+	    $jsonArr = json_decode($json, true);
+			// if address can be decoded to a location
+			if( isset($jsonArr['results'][0]['geometry']['location'])){
+				return $jsonArr['results'][0]['geometry']['location'];
+			}
+
+			else{
+				// else return coordinates as 0.0, 0.0
+				return array(0.0, 0.0);
+			}
+		}
+	  catch (HttpException $ex) {
+	    echo "Exception: ".$ex."<br>";
+	    exit();
+	    }
 	}
 
 }

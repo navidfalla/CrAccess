@@ -325,3 +325,13 @@ td textarea{
       border: 2px;
        /*background-color: grey;*/
 }
+
+.report-btn{
+  float: right;
+  margin-right: 20%;
+}
+
+.report-btn label{
+  clear: left;
+background-color: red;
+}
