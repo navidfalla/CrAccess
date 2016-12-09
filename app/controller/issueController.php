@@ -90,7 +90,11 @@ class IssueController {
 			$issue['date_added'] = $i->get('date_added');
 			$user = User::loadById($i->get('added_by'));
 			$issue['solved'] = $i->get('solved');
+
 			$issue['img'] = $i->get('img');
+			if (strpos($issue['img'], "jpeg")===false){
+				$issue['img'] = $issue['img'].".jpeg";
+			}
 			$issue['username'] = $user->get('username');
 			array_push($results, $issue);
 		};
@@ -309,6 +313,7 @@ class IssueController {
 	}
 
 	public function getVizData() {
+		$groups = array('0','1','2','3','4','5','6');
 		// get all issues
 		$issues = Issue::getAllIssues();
 
@@ -317,35 +322,64 @@ class IssueController {
 		foreach($issues as $id) {
 			// get details about each issue
 			$i = Issue::loadById($id);
-			$user = User::loadById($i->get('added_by'));
-
+			$author = User::loadById($i->get('added_by'));
+			$user = "guest";
+			$privilege = '1';
+			if (isset($_SESSION['user'])){
+				$myuser = User::loadById($_SESSION['user_id']);
+				$user = $myuser->get('username');
+				$privilege = $myuser->get('privilege');
+			}
 			$jsonIssue = array(
 				'id' => $id,
-				'name' => $i->get('address'),
-				// 'description' => $i->get('description'),
-				// 'summary' => $i->get('summary'),
-				// 'date_added' => $i->get('date_added'),
-				'group' => $i->get('solved'),
-				// 'group' => $i->get('added_by'),
-				// 'img' => $i->get('img'),
-				// 'username' => $user->get('username')
+				'name' => "issue".$id,
+				'address' => $i->get('address'),
+				'description' => $i->get('description'),
+				'summary' => $i->get('summary'),
+				'date_added' => $i->get('date_added'),
+				'group' => $i->get('group_id'),
+				'img' => $i->get('img'),
+				'solved' => $i->get('solved'),
+				'author' => $author->get('username'),
+				'privilege' => $privilege,
+				'current_user' => $user
 			);
 
 			$jsonIssues[] = $jsonIssue;
 		}
 
+		foreach ($groups as $key => $value) {
+			$jsonIssue = array(
+				'id' => $id,
+				'name' => "group".$value,
+				'current_user' => $user,
+				'author' => 'g',
+				'privilege' => $privilege,
+				'group' => $value,
+			);
+
+			$jsonIssues[] = $jsonIssue;
+		}
 
 		foreach ($jsonIssues as $key1 => $value1) {
-		    foreach ($jsonIssues as $key2 => $value2) {
-			    // if ($key1 < $key2 && $value1['username'] == $value2['username']){
-		    	if ($value1['group'] == $value2['group'] && $key1 < $key2){
-			    	$jsonLink = array(
-			    		'source' => $key1,
-			    		'target' => $key2,
-			    		'value' => 1
-			    	);
-			    	$jsonLinks[] = $jsonLink;
-			    }
+			if ($value1['author']=='g'){
+				foreach ($jsonIssues as $key2 => $value2) {
+			    	if ($value1['group'] == $value2['group']){
+						$jsonLink = array(
+				    		'source' => $key1,
+				    		'target' => $key2,
+				    		'value' => 0.5,
+				    	);
+				    	$jsonLinks[] = $jsonLink;
+				    }elseif ($value2['author']=='g') {
+						$jsonLink = array(
+				    		'source' => $key1,
+				    		'target' => $key2,
+				    		'value' => 0.1,
+				    	);
+				    	$jsonLinks[] = $jsonLink;
+				    }
+				}
 			}
 		}
 

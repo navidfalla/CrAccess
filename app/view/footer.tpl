@@ -13,7 +13,7 @@
   body {
     font: 10px sans-serif;
   }
-  circle.node {
+  .node circle {
     fill: lightsteelblue;
     stroke: #555;
     stroke-width: 3px;

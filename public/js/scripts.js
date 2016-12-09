@@ -38,7 +38,7 @@ $(document).ready(function() {
 	   changeUserRole($(this).parent().parent().attr('id'));
 	});
 
-	
+
 
 	// $.each($('.delete-form'), function (idx) {
 	// 	$(this).submit(function (e) {return confirm('Delete?');});

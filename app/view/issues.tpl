@@ -1,4 +1,4 @@
-<div id="content">
+<div id="content" style="padding-left: 15%;">
 <br>
 <br>
 
