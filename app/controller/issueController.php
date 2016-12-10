@@ -94,9 +94,9 @@ class IssueController {
 			$issue['solved'] = $i->get('solved');
 
 			$issue['img'] = $i->get('img');
-			if (strpos($issue['img'], "jpeg")===false){
-				$issue['img'] = $issue['img'].".jpeg";
-			}
+			// if (strpos($issue['img'], "jpeg")===false){
+			// 	$issue['img'] = $issue['img'].".jpeg";
+			// }
 			$issue['username'] = $user->get('username');
 			array_push($results, $issue);
 		};
