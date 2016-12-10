@@ -6,6 +6,8 @@ var width = $("div#vis").width(),     // svg width
     data, net, force, hullg, hull, linkg, link, nodeg, node;
 var current_issue;
 
+var groupnames = ["Skelton Conference Center Area","Squires Student Center Area","Duck Pond Area","Cassel Coliseum Area","Virginia Veterinary Medicine Area","Lane Stadium Area","Unspecified"];
+
 var curve = d3.svg.line()
     .interpolate("cardinal-closed")
     .tension(.85);
@@ -241,6 +243,8 @@ function init() {
           if($(this).attr("class").indexOf("leaf")!=-1 && d.author!='g'){
               showDetails(d);
               $(this).attr("r",10);
+          }else{
+              $("#group_info").text(groupnames[d.group]);
           }
       })
       .on("mouseout",function(d){
